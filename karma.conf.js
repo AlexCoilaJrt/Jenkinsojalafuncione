@@ -20,21 +20,21 @@ module.exports = function (config) {
         suppressAll: true
       },
       coverageReporter: {
-        dir: require('path').join(__dirname, './coverage/capachica-app'), // nombre correcto del proyecto
-        subdir: '.',
+        dir: require('path').join(__dirname, './coverage/capachica-app'), // carpeta donde quieres que guarde
+        subdir: '.', // usa el directorio raíz dentro de 'coverage/capachica-app'
         reporters: [
           { type: 'html' },
+          { type: 'lcovonly', subdir: '.', file: 'lcov.info' },  // <- para generar lcov.info aquí
           { type: 'text-summary' },
-          { type: 'lcov' },              // necesario para SonarQube
-          { type: 'json-summary' }       // útil para otras herramientas si lo deseas
-        ]
+        ],
       },
+      
       reporters: ['progress', 'kjhtml', 'coverage'],
       port: 9876,
       colors: true,
       logLevel: config.LOG_INFO,
       autoWatch: true,
-      browsers: ['ChromeHeadless'],
+      browsers: ['Chrome'],
       singleRun: false,
       restartOnFileChange: true
     });
