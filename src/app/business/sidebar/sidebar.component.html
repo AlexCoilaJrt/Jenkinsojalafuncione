@@ -1,0 +1,108 @@
+<div class="fixed w-64 bg-green-100 border-r border-gray-200 h-screen flex flex-col">
+  <!-- Encabezado de la barra lateral -->
+  <div class="px-6 py-4 bg-green-400">
+    <h2 class="text-lg font-semibold text-green-950">PANEL-ADM</h2>
+  </div>
+
+  <!-- Sección de enlaces del panel -->
+  <div class="flex-1 overflow-y-auto">
+    <h2 class="text-lg font-semibold text-gray-700 ml-5">Panel</h2>
+    <div class="px-4 py-6 ">
+      <ul>
+        <button routerLink="/dashboard" routerLinkActive="bg-green-400" class="mb-4 p-1 rounded-lg w-full">
+          <a class="text-gray-700 hover:text-green-600 flex items-center text-lg">
+            <i class="fas fa-home pr-4"></i>
+            Dashboard
+          </a>
+        </button>
+        <button *ngIf="tieneRol(['SuperAdmin'])" routerLink="/usuario" routerLinkActive="bg-green-400" class="mb-4 p-1 rounded-lg w-full">
+          <a class="text-gray-700 hover:text-green-600 flex items-center text-lg">
+            <i class="fas fa-user pr-4"></i>
+            Usuarios
+          </a>
+        </button>
+        <button *ngIf="tieneRol(['SuperAdmin', 'Emprendedor'])" routerLink="/emprendimiento" routerLinkActive="bg-green-400" class="mb-4 p-1 rounded-lg w-full">
+          <a class="text-gray-700 hover:text-green-600 flex items-center text-lg">
+            <i class="fas fa-cogs pr-4"></i>
+            Emprendimiento
+          </a>
+        </button>
+        <button *ngIf="tieneRol(['SuperAdmin'])"  routerLink="/roles" routerLinkActive="bg-green-400" class="mb-4 p-1 rounded-lg w-full">
+          <a class="text-gray-700 hover:text-green-600 flex items-center text-lg">
+            <i class="fas fa-plus pr-4"></i>
+            Roles
+          </a>
+        </button>
+        <button *ngIf="tieneRol(['SuperAdmin', 'Emprendedor'])" routerLink="/paquetes" routerLinkActive="bg-green-400" class="mb-4 p-1 rounded-lg w-full">
+          <a class="text-gray-700 hover:text-green-600 flex items-center text-lg">
+            <i class="fas fa-file-alt pr-4"></i>
+            Paquetes Turisticos
+          </a>
+        </button>
+        <button *ngIf="tieneRol(['SuperAdmin', 'Emprendedor'])" routerLink="/lugares-turisticos" routerLinkActive="bg-green-400" class="mb-4 p-1 rounded-lg w-full">
+          <a class="text-gray-700 hover:text-green-600 flex items-center text-lg">
+            <i class="fas fa-map-marker-alt pr-4"></i>
+            Lugares Turísticos
+          </a>
+        </button>
+        <button *ngIf="tieneRol(['SuperAdmin', 'Emprendedor'])" routerLink="/servicios" routerLinkActive="bg-green-400" class="mb-4 p-1 rounded-lg w-full">
+          <a class="text-gray-700 hover:text-green-600 flex items-center text-lg">
+            <i class="fas fa-map-marker-alt pr-4"></i>
+            Servicios
+          </a>
+        </button>
+        <button *ngIf="tieneRol(['SuperAdmin', 'Emprendedor'])" routerLink="/tipos-servicio" routerLinkActive="bg-green-400" class="mb-4 p-1 rounded-lg w-full">
+          <a class="text-gray-700 hover:text-green-600 flex items-center text-lg">
+            <i class="fas fa-cogs pr-4"></i>
+            Tipos de Servicio
+          </a>
+        </button>
+        <button *ngIf="tieneRol(['SuperAdmin', 'Emprendedor'])" routerLink="/disponibilidad" routerLinkActive="bg-green-400" class="mb-4 p-1 rounded-lg w-full">
+          <a class="text-gray-700 hover:text-green-600 flex items-center text-lg">
+            <i class="fas fa-map-marker-alt pr-4"></i>
+            Disponibilidad
+          </a>
+        </button>
+        <button *ngIf="tieneRol(['SuperAdmin'])"routerLink="/sliders" routerLinkActive="bg-green-400" class="mb-4 p-1 rounded-lg w-full">
+          <a class="text-gray-700 hover:text-green-600 flex items-center text-lg">
+            <i class="fas fa-box pr-4"></i>
+            Sliders
+          </a>
+        </button>
+        <button *ngIf="tieneRol(['SuperAdmin', 'Emprendedor'])" routerLink="/reserva" routerLinkActive="bg-green-400" class="mb-4 p-1 rounded-lg w-full">
+          <a class="text-gray-700 hover:text-green-600 flex items-center text-lg">
+            <i class="fas fa-comment pr-4"></i>
+            Reservas
+          </a>
+        </button>
+        <button routerLink="/dashboard" routerLinkActive="bg-green-400" class="mb-4 p-1 rounded-lg w-full">
+          <a class="text-gray-700 hover:text-green-600 flex items-center text-lg">
+            <i class="fas fa-star pr-4"></i>
+            Valoraciones
+          </a>
+        </button>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Pie de la barra lateral -->
+  <div class="px-4 py-6 mt-auto  bg-green-100">
+    <ul>
+      <li class="mb-4">
+        <button href="#" class="text-gray-700 hover:text-green-600 text-lg">
+          <i class="fas fa-cogs pr-5"></i>Configuración
+        </button>
+      </li>
+      <li class="mb-4">
+        <button href="#" class="text-gray-700 hover:text-green-600 text-lg">
+          <i class="fas fa-user pr-5"></i>Ayuda
+        </button>
+      </li>
+      <li>
+        <button (click)="logout()" class="text-gray-700 hover:text-green-600 text-lg">
+          <i class="fa-solid fa-right-from-bracket pr-5"></i>Cerrar Sesión
+        </button>
+      </li>
+    </ul>
+  </div>
+</div>

@@ -1,0 +1,37 @@
+<app-navbar></app-navbar>
+    <!-- Sección con fondo verde -->
+    <section class="bg-green-500 text-white py-8 px-6 w-full mt-40">
+        <h2 class="text-4xl  mb-4">Nuestros Servicios</h2>
+        <p class="text-lg">Descubre una variedad de servicios diseñados para satisfacer tus necesidades. Ya sea que busques aventuras turísticas, alojamiento confortable o experiencias únicas, nuestros emprendedores locales están comprometidos a brindarte lo mejor de Capachica. Cada servicio refleja el esfuerzo, la dedicación y la pasión de los empresarios locales que hacen de esta región un lugar especial para visitar y disfrutar.</p>
+    </section>
+    
+    <div class="flex justify-center items-start gap-8  px-4">
+        <button class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 p-6">
+            <div (click)="verDetallesServicios(servicio.id)" *ngFor="let servicio of servicios" class="bg-white rounded-lg shadow-lg overflow-hidden transition-transform transform hover:translate-y-1 h-[400px]">
+            <!-- Imagen de la tarjeta, puedes agregar una imagen si tienes alguna URL, sino, poner una imagen predeterminada -->
+            <img
+            [src]="servicio.imagenes.length > 0 ? 'https://twsevdzjdnwjhdysvecm.supabase.co/storage/v1/object/public/servicios/' + servicio.imagenes[0]?.url : 'img/fam1.png'"
+            alt="Imagen del slider"
+            class="rounded-t-xl w-full h-1/2 object-cover"
+            />
+            <div class="p-4">
+                <!-- Título de la tarjeta -->
+                <h3 class="text-xl font-semibold text-gray-800 mb-3">{{ servicio.nombre }}</h3>
+                
+                <!-- Descripción de la tarjeta -->
+                <p class="text-gray-600 mb-4">
+                {{ servicio.descripcion }}
+                </p>
+                <div class="flex justify-end items-end">
+                    <span class="text-lg font-semibold text-green-600">Precio: {{ servicio.moneda }} {{ servicio.precioBase }}</span>
+                </div>
+                
+            </div>
+            </div>
+        </button>
+    </div>
+        <div *ngIf="servicios.length === 0" class="flex flex-col items-center justify-center py-16 col-span-2">
+        <div class="animate-spin rounded-full h-10 w-10 border-t-2 border-b-2 border-green-600"></div>
+        <p class="mt-4 text-gray-600 text-lg">Cargando Servicios...</p>
+    </div>
+

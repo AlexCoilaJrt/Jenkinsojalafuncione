@@ -1,0 +1,104 @@
+<!-- src/app/business/authentication/register/register.component.html -->
+<form #f="ngForm" (ngSubmit)="onSubmit()" novalidate class="relative min-h-screen flex justify-center items-center">
+  <!-- Fondo degradado -->
+  <div
+    class="bg-purple-900 absolute inset-0 bg-gradient-to-b from-gray-900 via-gray-900 to-purple-800 h-full w-full overflow-hidden">
+  </div>
+
+  <!-- Contenedor principal -->
+  <div class="relative z-10 bg-cover bg-center rounded-3xl w-[900px] flex overflow-hidden shadow-lg"
+    style="background-image: url('assets/ARDOX.png')">
+    <!-- Imagen lateral -->
+    <div class="w-full lg:w-1/2 flex items-center justify-center p-6 bg-white bg-opacity-50">
+      <img src="assets/chatgpt-image.png" alt="Imagen de registro" class="w-full h-auto max-h-[400px] object-contain" />
+    </div>
+
+    <!-- Formulario -->
+    <div class="w-full lg:w-1/2 p-10 bg-white bg-opacity-50">
+      <div class="mb-7">
+        <h3 class="font-semibold text-2xl text-gray-800">Crear cuenta</h3>
+        <p class="text-gray-400">
+          ¿Ya tienes una cuenta?
+          <a routerLink="/login" class="text-sm text-black-700 hover:text-purple-700">Iniciar sesión</a>
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div>
+          <label class="block text-sm text-gray-700 mb-1">Nombre</label>
+          <input [(ngModel)]="nombre" name="nombre" required type="text" placeholder="Nombre"
+            class="w-full text-sm px-4 py-3 bg-white border border-gray-200 rounded-lg focus:outline-none focus:border-purple-400" />
+        </div>
+        <div>
+          <label class="block text-sm text-gray-700 mb-1">Apellidos</label>
+          <input [(ngModel)]="apellidos" name="apellidos" required type="text" placeholder="Apellidos"
+            class="w-full text-sm px-4 py-3 bg-white border border-gray-200 rounded-lg focus:outline-none focus:border-purple-400" />
+        </div>
+        <div>
+          <label class="block text-sm text-gray-700 mb-1">Teléfono</label>
+          <input [(ngModel)]="telefono" name="telefono" required type="tel" placeholder="Teléfono"
+            class="w-full text-sm px-4 py-3 bg-white border border-gray-200 rounded-lg focus:outline-none focus:border-purple-400" />
+        </div>
+        <div>
+          <label class="block text-sm text-gray-700 mb-1">Dirección</label>
+          <input [(ngModel)]="direccion" name="direccion" required type="text" placeholder="Dirección"
+            class="w-full text-sm px-4 py-3 bg-white border border-gray-200 rounded-lg focus:outline-none focus:border-purple-400" />
+        </div>
+        <!-- Reemplaza el input de imagen de registro por este bloque -->
+        <div>
+          <label class="block text-sm text-gray-700 mb-1">Foto de Perfil</label>
+          <input type="file" (change)="onFileSelected($event)" accept="image/*"
+            class="w-full text-sm px-4 py-2 bg-white border border-gray-200 rounded-lg focus:outline-none focus:border-purple-400" />
+          <div class="mt-2" *ngIf="previewUrl">
+            <img [src]="previewUrl" alt="Preview" class="h-24 w-24 rounded-full object-cover" />
+          </div>
+        </div>
+
+
+        <div>
+          <label class="block text-sm text-gray-700 mb-1">Fecha de Nacimiento</label>
+          <input [(ngModel)]="fechaNacimiento" name="fechaNacimiento" required type="date"
+            class="w-full text-sm px-4 py-3 bg-white border border-gray-200 rounded-lg focus:outline-none focus:border-purple-400" />
+        </div>
+        <div>
+          <label class="block text-sm text-gray-700 mb-1">Correo Electrónico</label>
+          <input [(ngModel)]="email" name="email" required type="email" placeholder="correo@ejemplo.com"
+            class="w-full text-sm px-4 py-3 bg-white border border-gray-200 rounded-lg focus:outline-none focus:border-purple-400" />
+        </div>
+        <!-- Contraseña -->
+        <div class="relative">
+          <label class="block text-sm text-gray-700 mb-1">Contraseña</label>
+          <input [(ngModel)]="password" name="password" required [type]="showPassword ? 'text' : 'password'"
+            placeholder="Contraseña"
+            class="w-full text-sm px-4 py-3 pr-12 bg-white border border-gray-200 rounded-lg focus:outline-none focus:border-purple-400" />
+          <button type="button" (click)="togglePasswordVisibility()"
+            class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-black">
+            <i class="fas" [ngClass]="showPassword ? 'fa-eye-slash' : 'fa-eye'"></i>
+          </button>
+        </div>
+
+        <div>
+          <label class="block text-sm text-gray-700 mb-1">Confirmar Contraseña</label>
+          <input [(ngModel)]="confirmPassword" name="confirmPassword" required
+            [type]="showPassword ? 'text' : 'password'" placeholder="Confirmar contraseña"
+            class="w-full text-sm px-4 py-3 bg-white border border-gray-200 rounded-lg focus:outline-none focus:border-purple-400" />
+        </div>
+      </div>
+
+      <!-- Botón de Registro -->
+      <div class="mt-7">
+        <button type="submit" [disabled]="f.invalid"
+          class="w-full flex justify-center bg-black hover:bg-gray-900 text-white p-3 rounded-lg tracking-wide font-semibold transition ease-in duration-500">
+          Registrarse
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Ola inferior -->
+  <svg class="absolute bottom-0 left-0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">
+    <path fill="#fff" fill-opacity="1"
+      d="M0,0L40,42.7C80,85,160,171,240,197.3C320,224,400,192,480,154.7C560,117,640,75,720,74.7C800,75,880,117,960,170.7C1040,224,1120,298,1200,282.7C1280,267,1360,171,1400,123.3L1440,75L1440,320L1400,320C1360,320,1280,320,1200,320C1120,320,1040,320,960,320C880,320,800,320,720,320C640,320,560,320,480,320C400,320,320,320,240,320C160,320,80,320,40,320L0,320Z">
+    </path>
+  </svg>
+</form>

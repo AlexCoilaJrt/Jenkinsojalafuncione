@@ -1,0 +1,27 @@
+/* coverflow-carousel.component.css */
+.mySwiper {
+  width: 100%;
+  height: 400px;
+}
+
+.slide-content {
+  position: relative;
+  border-radius: 20px;
+  overflow: hidden;
+}
+
+.slide-content img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.overlay {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  color: #fff;
+  padding: 12px;
+  text-align: center;
+}

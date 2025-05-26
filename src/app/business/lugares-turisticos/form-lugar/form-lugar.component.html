@@ -1,0 +1,120 @@
+<div class="flex">
+  <app-sidebar class="w-[260px] fixed h-screen z-20"></app-sidebar>
+  <div class="flex-1 ml-[260px]">
+    <app-navbar class="fixed top-0 left-[260px] right-0 h-[64px] z-10 bg-white border-b"></app-navbar>
+
+    <div class="m-[80px]">
+      <div class="max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-lg">
+        <h2 class="text-2xl font-bold mb-4 text-gray-800">
+          {{ isEdit ? "Editar Lugar Turístico" : "Registrar Lugar Turístico" }}
+        </h2>
+        <form [formGroup]="lugarForm" (ngSubmit)="guardarLugar()" enctype="multipart/form-data">
+          <div class="space-y-6">
+            <div class="grid md:grid-cols-2 gap-6">
+              <div>
+                <label class="block font-medium text-gray-700">Nombre</label>
+                <input type="text" formControlName="nombre" placeholder="Nombre del lugar"
+                  class="border p-3 rounded w-full" required />
+              </div>
+              <div>
+                <label class="block font-medium text-gray-700">Descripción</label>
+                <input type="text" formControlName="descripcion" placeholder="Descripción del lugar"
+                  class="border p-3 rounded w-full" required />
+              </div>
+
+              <div>
+                <label class="block font-medium text-gray-700">Dirección</label>
+                <input type="text" formControlName="direccion" placeholder="Dirección del lugar"
+                  class="border p-3 rounded w-full" required />
+              </div>
+
+             
+          <!-- Latitud / Longitud -->
+          <div class="grid grid-cols-2 gap-4">
+            <div>
+              <label for="latitud" class="block text-sm font-semibold text-gray-700">Latitud</label>
+              <input id="latitud" type="number" formControlName="latitud"
+                     class="w-full p-2 border rounded-md mt-2">
+            </div>
+            <div>
+              <label for="longitud" class="block text-sm font-semibold text-gray-700">Longitud</label>
+              <input id="longitud" type="number" formControlName="longitud"
+                     class="w-full p-2 border rounded-md mt-2">
+            </div>
+          </div>
+              <div>
+                <label class="block font-medium text-gray-700">Horario de Apertura</label>
+                <input type="date" formControlName="horarioApertura" class="border p-3 rounded w-full" />
+              </div>
+
+              <div>
+                <label class="block font-medium text-gray-700">Horario de Cierre</label>
+                <input type="date" formControlName="horarioCierre" class="border p-3 rounded w-full" />
+              </div>
+
+              <div>
+                <label class="block font-medium text-gray-700">Costo de Entrada</label>
+                <input type="number" formControlName="costoEntrada" placeholder="Costo de entrada"
+                  class="border p-3 rounded w-full" />
+              </div>
+
+              <div>
+                <label class="block font-medium text-gray-700">Recomendaciones</label>
+                <input type="text" formControlName="recomendaciones" placeholder="Recomendaciones del lugar"
+                  class="border p-3 rounded w-full" />
+              </div>
+
+              <div>
+                <label class="block font-medium text-gray-700">Restricciones</label>
+                <input type="text" formControlName="restricciones" placeholder="Restricciones del lugar"
+                  class="border p-3 rounded w-full" />
+              </div>
+
+              <div>
+                <label class="block font-medium text-gray-700">Es Destacado</label>
+                <input type="checkbox" formControlName="esDestacado" class="p-3 rounded w-full" />
+              </div>
+
+              <div>
+                <label class="block font-medium text-gray-700">Estado</label>
+                <select formControlName="estado" class="border p-3 rounded w-full">
+                  <option value="activo">Activo</option>
+                  <option value="inactivo">Inactivo</option>
+                </select>
+              </div>
+
+            <!-- Imagen -->
+            <div>
+              <label class="block font-medium text-gray-700">Imágenes del Lugar</label>
+
+              <input type="file" accept="image/*" multiple (change)="onFileChange($event)"
+                class="border p-3 rounded w-full" />
+
+              <div *ngIf="previewUrl.length" class="grid grid-cols-3 md:grid-cols-4 gap-2 mt-2">
+                <div *ngFor="let src of previewUrl; let i = index" class="relative">
+                  <!-- Botón para eliminar -->
+                  <button type="button" (click)="removeImage(i)"
+                    class="absolute top-1 right-1 bg-white rounded-full p-1 text-gray-600 hover:text-red-600 shadow">
+                    &times;
+                  </button>
+                  <img [src]="src" alt="Preview" class="w-full h-24 object-cover rounded border" />
+                </div>
+              </div>
+            </div>
+            </div>
+
+            <div class="flex justify-end gap-6 mt-6">
+              <button type="submit" class="bg-green-600 text-white px-8 py-3 rounded hover:bg-green-700">
+                {{ isEdit ? "Actualizar" : "Guardar" }}
+              </button>
+              <button type="button" class="bg-gray-300 text-gray-800 px-8 py-3 rounded hover:bg-gray-400"
+                (click)="cancelar()">
+                Cancelar
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

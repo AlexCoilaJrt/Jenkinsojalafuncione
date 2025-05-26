@@ -1,0 +1,57 @@
+<app-navbar></app-navbar>
+<div class="flex justify-center items-start pt-[100px] gap-8 mt-24 px-4">
+  <div class="card" style="border: 1px solid #ddd; border-radius: 8px; padding: 15px; width: 98%; max-width: 1400px; margin: 20px auto; font-family: Arial, sans-serif; display: flex; gap: 15px; align-items: stretch; min-height: 200px;">
+    <div style="flex: 0 0 45%; position: relative; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+      <img [src]="paquetes.imagenes.length > 0 ? paquetes.imagenes[0] : 'img/fam1.png'" alt="Paquete Paramis" style="width: 100%; height: 100%; object-fit: cover;">
+    </div>
+    <div style="flex: 1; padding: 10px 30px 10px 0; display: flex; flex-direction: column; justify-content: space-between;">
+      <div>
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+          <h1 style="margin: 0; font-size: 1.4rem; color: #2c3e50; display: flex; align-items: center;">
+            <i class="fa-solid fa-bookmark" style="margin-right: 8px; font-size: 1.3rem; color: #f39c12;"></i>
+            {{paquetes.nombre}}
+          </h1>
+        </div>
+        <div class="flex items-center" style="margin-top: 5px; font-size: 1.2rem; font-weight: bold; color: #2c3e50;">
+          Precio: S/{{paquetes.precio}} {{paquetes.moneda}}
+        </div>
+
+        <!-- Estrellas debajo del título -->
+        <div class="flex items-center">
+          <span class="text-yellow-300 mr-1" *ngFor="let star of [].constructor(5); let i = index">
+            <i class="fas fa-star"></i>
+          </span>
+        </div>
+      </div>
+
+      <!-- Información del emprendimiento -->
+      <div *ngIf="paquetes.emprendimiento">
+        <h3 class="text-lg font-semibold text-gray-700">Emprendimiento</h3>
+        <p><strong>Nombre:</strong> {{paquetes.emprendimiento.nombre}}</p>
+        <p><strong>Descripción:</strong> {{paquetes.emprendimiento.descripcion}}</p>
+        <p><strong>Dirección:</strong> {{paquetes.emprendimiento.direccion}}</p>
+      </div>
+
+      <!-- Servicios adicionales -->
+      <div *ngIf="paquetes.servicios && paquetes.servicios.length > 0">
+        <h3 class="text-lg font-semibold text-gray-700">Servicios</h3>
+        <ul class="list-disc pl-4">
+          <li *ngFor="let servicio of paquetes.servicios">{{ servicio.servicio.nombre }}</li>
+        </ul>
+      </div>
+
+      <!-- Si no hay servicios -->
+      <div *ngIf="paquetes.servicios && paquetes.servicios.length === 0">
+        <p>No se han encontrado servicios adicionales.</p>
+      </div>
+      <div class="flex justify-end mt-5">
+        <button 
+          routerLink="/" 
+          class="bg-blue-600 text-white px-6 py-3 rounded-lg shadow-md hover:bg-blue-700 transition ease-in-out duration-300">
+          Volver a la lista de paquetes
+        </button>
+      </div>
+    </div>
+
+  </div>
+</div>

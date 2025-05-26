@@ -1,0 +1,102 @@
+<div class="flex">
+    <app-sidebar class="w-[260px] fixed h-screen z-20"></app-sidebar>
+    <div class="flex-1 ml-[260px]">
+        <app-navbar class="fixed top-0 left-[260px] right-0 h-[64px] z-10 bg-white border-b"></app-navbar>
+
+        <div class="m-[80px]">
+            <div class="max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-lg">
+                <h2 class="text-2xl font-bold mb-4 text-gray-800">
+                    {{ isEdit ? 'Editar Reserva' : 'Registrar Reserva' }}
+                </h2>
+                <form [formGroup]="reservaForm" (ngSubmit)="guardarReserva()" enctype="multipart/form-data">
+                    <div class="space-y-6">
+                        <div class="grid md:grid-cols-2 gap-6">
+
+
+                            <!-- Fecha de Inicio -->
+                            <div>
+                                <label class="block font-medium text-gray-700">Fecha de Inicio</label>
+                                <input type="datetime-local" formControlName="fechaInicio"
+                                    class="border p-3 rounded w-full" required />
+                            </div>
+
+                            <!-- Fecha de Fin -->
+                            <div>
+                                <label class="block font-medium text-gray-700">Fecha de Fin</label>
+                                <input type="datetime-local" formControlName="fechaFin"
+                                    class="border p-3 rounded w-full" required />
+                            </div>
+
+                            <!-- Cantidad de Personas -->
+                            <div>
+                                <label class="block font-medium text-gray-700">Cantidad de Personas</label>
+                                <input type="number" formControlName="cantidadPersonas"
+                                    placeholder="Cantidad de personas" class="border p-3 rounded w-full" required />
+                            </div>
+
+                            <!-- Precio Total -->
+                            <div>
+                                <label class="block font-medium text-gray-700">Precio Total</label>
+                                <input type="number" formControlName="precioTotal" placeholder="Precio total"
+                                    class="border p-3 rounded w-full" required />
+                            </div>
+
+                            <!-- Moneda -->
+                            <div>
+                                <label class="block font-medium text-gray-700">Moneda</label>
+                                <select formControlName="moneda" class="border p-3 rounded w-full" required>
+                                    <option value="" disabled>Selecciona la moneda</option>
+                                    <option value="PEN">PEN</option>
+                                    <option value="USD">USD</option>
+                                </select>
+                            </div>
+
+
+                            <!-- Estado -->
+                            <div>
+                                <label class="block font-medium text-gray-700">Estado</label>
+                                <select formControlName="estado" class="border p-3 rounded w-full" required>
+                                    <option value="pendiente">Pendiente</option>
+                                    <option value="confirmado">Confirmado</option>
+                                    <option value="cancelado">Cancelado</option>
+                                </select>
+                            </div>
+                            <!-- Fecha de cancelacion -->
+                            <div>
+                                <label class="block font-medium text-gray-700">Fecha de Cancelacion</label>
+                                <input type="datetime-local" formControlName="fechaCancelacion"
+                                    class="border p-3 rounded w-full" required />
+                            </div>
+                            <!-- Notas -->
+                            <div>
+                                <label class="block font-medium text-gray-700">Notas</label>
+                                <textarea formControlName="notas" placeholder="Notas adicionales"
+                                    class="border p-3 rounded w-full"></textarea>
+                            </div>
+
+                            <!-- Motivo de Cancelación -->
+                            <div>
+                                <label class="block font-medium text-gray-700">Motivo de Cancelación</label>
+                                <textarea formControlName="motivoCancelacion" placeholder="Motivo de cancelación"
+                                    class="border p-3 rounded w-full"></textarea>
+                            </div>
+
+                        </div>
+
+
+
+                        <div class="flex justify-end gap-6 mt-6">
+                            <button type="submit" class="bg-green-600 text-white px-8 py-3 rounded hover:bg-green-700">
+                                {{ isEdit ? 'Actualizar' : 'Guardar' }}
+                            </button>
+                            <button type="button" class="bg-gray-300 text-gray-800 px-8 py-3 rounded hover:bg-gray-400"
+                                (click)="cancelar()">
+                                Cancelar
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,35 @@
+<div class="flex w-full h-16 items-start justify-between p-4 bg-white border-b-2 border-gray-200">
+  <!-- Botón de menú móvil -->
+  <button class="md:hidden text-gray-500">
+    <i class="fa fa-bars"></i>
+  </button>
+
+  <!-- Cuadro de búsqueda -->
+  <div class="relative flex-1 max-w-md">
+    <input
+      type="text"
+      placeholder="Buscar..."
+      class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+    />
+    <i class="fa fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+  </div>
+
+  <!-- Selector de tema -->
+  <div class="flex items-center gap-4">
+    <div class="flex items-center gap-2">
+      <select class="border border-gray-300 rounded-lg px-2 py-1 text-sm">
+        <option value="light">Claro</option>
+        <option value="dark">Oscuro</option>
+      </select>
+    </div>
+
+    <!-- Información del usuario -->
+    <div class="flex items-center gap-2">
+      <span class="text-sm font-medium">Juan Pérez Pérez</span>
+      <span class="text-xs text-gray-500">Casa Turística Sampaxtla</span>
+      <div class="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center">
+        <span class="text-sm font-semibold text-gray-700">JP</span>
+      </div>
+    </div>
+  </div>
+</div>

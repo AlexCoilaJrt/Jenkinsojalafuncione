@@ -1,0 +1,26 @@
+/* plato-form.component.css */
+input, textarea {
+  border: 1px solid #d1d5db;
+  padding: 8px;
+  border-radius: 4px;
+  width: 100%;
+}
+
+button:disabled {
+  background-color: #d1d5db;
+}
+
+/* Estilos para el checkbox cuadrado */
+input[type="checkbox"] {
+  width: 20px; /* Ajusta el tamaño del cuadrado */
+  height: 20px;
+  border: 2px solid #4b5563; /* Borde del cuadrado */
+  border-radius: 2px; /* Para hacerlo cuadrado con bordes rectos */
+  cursor: pointer;
+}
+
+input[type="checkbox"]:checked {
+  background-color: #4CAF50; /* Cambia el color de fondo cuando está seleccionado */
+  border-color: #4CAF50; /* El borde también cambia de color */
+  box-shadow: 0 0 5px rgba(0, 128, 0, 0.5); /* Agregar sombra para dar un efecto al seleccionado */
+}

@@ -1,0 +1,49 @@
+<app-navbar ></app-navbar>
+
+<!-- Sección con fondo verde -->
+<section class="bg-green-500 text-white py-8 px-6 w-full mt-40">
+  <h2 class="text-4xl mb-4">Emprendimiento Local</h2>
+  <p class="text-lg">
+    Apoya a los emprendedores locales de Capachica. Descubre proyectos innovadores,
+    productos únicos y la pasión de los empresarios de la región.
+  </p>
+</section>
+
+<!-- Grid de Cards -->
+<div class="flex justify-center items-start gap-8 px-4">
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 p-6">
+
+    <!-- Recorrido por el array de emprendimientos FILTRADOS -->
+    <div
+      *ngFor="let emp of emprendimientos"
+      (click)="verDetallesEmprendimiento(emp.id)"
+      class="bg-white rounded-lg shadow-lg overflow-hidden transition-transform transform hover:-translate-y-1 cursor-pointer"
+    >
+      <!-- Imagen desde Supabase o placeholder -->
+      <img
+        [src]="
+          emp.imagenes?.length
+            ? 'https://twsevdzjdnwjhdysvecm.supabase.co/storage/v1/object/public/emprendimientos/' + emp.imagenes[0].url
+            : 'assets/placeholder.jpg'
+        "
+        alt="Imagen de {{ emp.nombre }}"
+        class="rounded-t-xl w-full h-48 object-cover"
+      />
+
+      <div class="p-4 space-y-3">
+        <h3 class="text-xl font-semibold text-gray-800 flex items-center gap-2">
+          👨‍👩‍👧‍👦 {{ emp.nombre }}
+        </h3>
+        
+        <p class="text-gray-600 text-sm line-clamp-3">
+          📝 {{ emp.descripcion }}
+        </p>
+        
+        <p class="text-gray-700 font-medium">
+          📍 <strong>Dirección:</strong> {{ emp.direccion }}
+        </p>
+      </div>
+    </div>
+
+  </div>
+</div>

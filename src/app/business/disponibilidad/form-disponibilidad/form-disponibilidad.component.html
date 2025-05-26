@@ -1,0 +1,68 @@
+<!-- Formulario para Crear/Editar Disponibilidad -->
+<div class="mt-10 mx-auto max-w-4xl p-8 border border-gray-200 rounded-2xl bg-white shadow-lg">
+    <h3 class="text-2xl font-bold mb-6 text-indigo-700 flex items-center gap-2">
+      <span class="material-icons text-indigo-500">event_available</span>
+      {{ disponibilidadForm.get('id')?.value ? 'Editar Disponibilidad' : 'Crear Nueva Disponibilidad' }}
+    </h3>
+  
+    <form [formGroup]="disponibilidadForm" (ngSubmit)="onSubmit()" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      
+      <!-- Servicio ID -->
+      <div>
+        <label class="block mb-2 text-sm font-medium text-gray-700">Servicio ID</label>
+        <input type="number" formControlName="servicioId"
+               class="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-400" />
+        <div *ngIf="disponibilidadForm.get('servicioId')?.invalid && disponibilidadForm.get('servicioId')?.touched"
+             class="text-red-600 text-sm mt-1">
+          El servicio es requerido.
+        </div>
+      </div>
+  
+      <!-- Fecha -->
+      <div>
+        <label class="block mb-2 text-sm font-medium text-gray-700">Fecha</label>
+        <input type="date" formControlName="fecha"
+               class="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-400" />
+        <div *ngIf="disponibilidadForm.get('fecha')?.invalid && disponibilidadForm.get('fecha')?.touched"
+             class="text-red-600 text-sm mt-1">
+          La fecha es requerida.
+        </div>
+      </div>
+  
+      <!-- Cupos Disponibles -->
+      <div>
+        <label class="block mb-2 text-sm font-medium text-gray-700">Cupos Disponibles</label>
+        <input type="number" formControlName="cuposDisponibles"
+               class="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-400" />
+        <div *ngIf="disponibilidadForm.get('cuposDisponibles')?.invalid && disponibilidadForm.get('cuposDisponibles')?.touched"
+             class="text-red-600 text-sm mt-1">
+          El número de cupos debe ser mayor que 0.
+        </div>
+      </div>
+  
+      <!-- Precio Especial -->
+      <div>
+        <label class="block mb-2 text-sm font-medium text-gray-700">Precio Especial (S/)</label>
+        <input type="number" formControlName="precioEspecial" step="0.01"
+               class="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-400" />
+        <div *ngIf="disponibilidadForm.get('precioEspecial')?.invalid && disponibilidadForm.get('precioEspecial')?.touched"
+             class="text-red-600 text-sm mt-1">
+          El precio especial debe ser mayor o igual a 0.
+        </div>
+      </div>
+  
+      <!-- Botones -->
+      <div class="col-span-1 md:col-span-2 flex justify-end gap-4 mt-6">
+        <button type="submit"
+                class="bg-indigo-600 text-white font-semibold px-6 py-2 rounded-lg hover:bg-indigo-700 shadow-md transition duration-300 ease-in-out"
+                [disabled]="disponibilidadForm.invalid">
+          Guardar
+        </button>
+        <button type="button" (click)="onCancel()"
+                class="bg-gray-200 text-gray-800 font-medium px-6 py-2 rounded-lg hover:bg-gray-300 transition duration-300 ease-in-out">
+          Cancelar
+        </button>
+      </div>
+    </form>
+  </div>
+  

@@ -1,0 +1,158 @@
+<div class="flex">
+  <app-sidebar class="w-[260px] fixed h-screen z-20"></app-sidebar>
+  <div class="flex-1 ml-[260px]">
+    <app-navbar class="fixed top-0 left-[260px] right-0 h-[64px] z-10 bg-white border-b"></app-navbar>
+
+    <div class="m-[80px]">
+      <div class="max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-lg">
+        <h2 class="text-2xl font-bold mb-4 text-gray-800">
+          {{ isEdit ? 'Editar Servicio' : 'Registrar Servicio' }}
+        </h2>
+        <form [formGroup]="servicioForm" (ngSubmit)="guardarServicio()" enctype="multipart/form-data">
+          <div class="space-y-6">
+            <div class="grid md:grid-cols-2 gap-6">
+              <!-- Nombre del Servicio -->
+              <div>
+                <label class="block font-medium text-gray-700">Nombre</label>
+                <input type="text" formControlName="nombre" placeholder="Nombre del servicio"
+                  class="border p-3 rounded w-full" required />
+              </div>
+
+              <!-- Descripción del Servicio -->
+              <div>
+                <label class="block font-medium text-gray-700">Descripción</label>
+                <input type="text" formControlName="descripcion" placeholder="Descripción del servicio"
+                  class="border p-3 rounded w-full" required />
+              </div>
+
+              <!-- Precio Base -->
+              <div>
+                <label class="block font-medium text-gray-700">Precio Base</label>
+                <input type="number" formControlName="precioBase" placeholder="Precio base"
+                  class="border p-3 rounded w-full" required />
+              </div>
+
+              <!-- Moneda -->
+              <div>
+                <label class="block font-medium text-gray-700">Moneda</label>
+                <select formControlName="moneda" class="border p-3 rounded w-full" required>
+                  <option value="" disabled>Selecciona la moneda</option>
+                  <option value="PEN">PEN</option>
+                  <option value="USD">USD</option>
+                </select>
+              </div>
+
+
+              <!-- Estado -->
+              <div>
+                <label class="block font-medium text-gray-700">Estado</label>
+                <select formControlName="estado" class="border p-3 rounded w-full" required>
+                  <option value="activo">Activo</option>
+                  <option value="inactivo">Inactivo</option>
+                </select>
+              </div>
+
+              <!-- tipo -->
+              <div>
+                <label class="block font-medium text-gray-700">Tipo de Servicio</label>
+                <select formControlName="tipoServicioId" class="border p-3 rounded w-full" required>
+                  <option *ngFor="let tipo of tiposServicio" [value]="tipo.id">{{ tipo.nombre }}</option>
+                </select>
+              </div>
+              <!-- Mapa Leaflet -->
+              <div class="mb-4 md:col-span-2">
+                <label class="block font-medium text-gray-700 mb-2">Selecciona ubicación (click en el mapa)</label>
+                <div #mapContainer class="w-full h-64 rounded border" style="height: 300px;"></div>
+                <div class="mt-2 flex gap-4">
+                  <small class="text-gray-600">
+                    Latitud: {{ servicioForm.get('latitud')?.value }}
+                  </small>
+                  <small class="text-gray-600">
+                    Longitud: {{ servicioForm.get('longitud')?.value }}
+                  </small>
+                </div>
+              </div>
+            </div>
+            <!-- Emprendedor -->
+            <div *ngIf="tieneRol(['SuperAdmin'])">
+              <label class="block font-medium text-gray-700">Emprendedor</label>
+              <select formControlName="emprendimientoId" class="border p-3 rounded w-full" required>
+                <option *ngFor="let emp of emprendimientos" [value]="emp.id">{{ emp.nombre }}</option>
+              </select>
+            </div>
+
+            <div class="flex items-center justify-between mb-4">
+              <h1 class="text-xl font-bold">Detalles del servicio</h1>
+              <button type="button" class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700"
+                (click)="addDetalle()">
+                Agregar
+              </button>
+            </div>
+
+            <div [formGroup]="detallesServicioGroup" class="grid md:grid-cols-2 gap-6">
+              <ng-container *ngFor="let key of detalleKeys">
+                <div class="relative border p-3 rounded">
+                  <!-- Botón para eliminar el control -->
+                  <button type="button" class="absolute top-1 right-1 text-gray-600 hover:text-red-600"
+                    (click)="removeDetalle(key)">
+                    &times;
+                  </button>
+
+                  <label class="block font-medium text-gray-700">{{ key | titlecase }}</label>
+                  <input [type]=" key === 'capacidad' ? 'number' : 'text' " [formControlName]="key"
+                    [placeholder]=" key | titlecase " class="mt-1 border p-2 rounded w-full" />
+                </div>
+              </ng-container>
+            </div>
+
+            <!-- Imagen del Servicio -->
+            <div>
+              <label class="block font-medium text-gray-700">Imágenes del Servicio</label>
+
+              <!-- Campo para subir nuevas imágenes -->
+              <input type="file" accept="image/*" multiple (change)="onFileChange($event)"
+                class="border p-3 rounded w-full" />
+
+              <!-- Previsualización de imágenes ya cargadas (si existen) -->
+              <div *ngIf="servicioForm.get('imagenes')?.value?.length"
+                class="grid grid-cols-3 md:grid-cols-4 gap-2 mt-2">
+                <div *ngFor="let imgUrl of servicioForm.get('imagenes')?.value; let i = index" class="relative">
+                  <!-- Botón para eliminar imagen -->
+                  <button type="button" (click)="removeImage(i)"
+                    class="absolute top-1 right-1 bg-white rounded-full p-1 text-gray-600 hover:text-red-600 shadow">
+                    &times;
+                  </button>
+                  <img [src]="'https://twsevdzjdnwjhdysvecm.supabase.co/storage/v1/object/public/servicios/' + imgUrl"
+                    alt="Imagen del servicio" class="w-full h-24 object-cover rounded border" />
+                </div>
+              </div>
+
+              <!-- Previsualización de imágenes nuevas seleccionadas -->
+              <div *ngIf="previewUrls.length" class="grid grid-cols-3 md:grid-cols-4 gap-2 mt-2">
+                <div *ngFor="let src of previewUrls; let i = index" class="relative">
+                  <!-- Botón para eliminar la previsualización -->
+                  <button type="button" (click)="removeImage(i)"
+                    class="absolute top-1 right-1 bg-white rounded-full p-1 text-gray-600 hover:text-red-600 shadow">
+                    &times;
+                  </button>
+                  <img [src]="src" alt="Preview" class="w-full h-24 object-cover rounded border" />
+                </div>
+              </div>
+            </div>
+
+
+            <div class="flex justify-end gap-6 mt-6">
+              <button type="submit" class="bg-green-600 text-white px-8 py-3 rounded hover:bg-green-700">
+                {{ isEdit ? 'Actualizar' : 'Guardar' }}
+              </button>
+              <button type="button" class="bg-gray-300 text-gray-800 px-8 py-3 rounded hover:bg-gray-400"
+                (click)="cancelar()">
+                Cancelar
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

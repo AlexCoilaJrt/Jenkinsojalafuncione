@@ -1,0 +1,79 @@
+.servicio-form {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 0 20px;
+  
+    .form-row {
+      display: flex;
+      gap: 20px;
+      margin-bottom: 20px;
+  
+      mat-form-field {
+        flex: 1;
+      }
+    }
+  
+    .image-upload-section {
+      margin-top: 20px;
+  
+      h3 {
+        margin-bottom: 16px;
+      }
+  
+      .image-upload-container {
+        border: 2px dashed #ccc;
+        border-radius: 4px;
+        padding: 20px;
+        background: #fafafa;
+  
+        .image-preview-grid {
+          display: grid;
+          grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+          gap: 16px;
+          margin-top: 16px;
+  
+          .image-preview-item {
+            position: relative;
+            aspect-ratio: 1;
+            border-radius: 4px;
+            overflow: hidden;
+  
+            img {
+              width: 100%;
+              height: 100%;
+              object-fit: cover;
+            }
+  
+            button {
+              position: absolute;
+              top: 4px;
+              right: 4px;
+              background: rgba(0, 0, 0, 0.5);
+              color: white;
+            }
+          }
+  
+          .image-upload-button {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            border: 1px dashed #999;
+            border-radius: 4px;
+            cursor: pointer;
+            aspect-ratio: 1;
+  
+            input[type="file"] {
+              display: none;
+            }
+  
+            span {
+              margin-top: 8px;
+              font-size: 14px;
+              color: #666;
+            }
+          }
+        }
+      }
+    }
+  }

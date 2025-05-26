@@ -1,0 +1,76 @@
+<p>tipos-servicio works!</p>
+<div class="flex">
+    <app-sidebar></app-sidebar>
+    <div class="flex-1 ml-64">
+      <app-navbar class="fixed top-0 left-[260px] right-0 h-[64px] z-10 bg-white border-b"></app-navbar>
+      <div class="mt-[64px] p-6 w-full">
+          <div class="flex justify-between items-center mb-6 flex-wrap gap-4">
+            <button
+              routerLink="/newtipos-servicio"
+              class="px-4 py-2 bg-green-500 text-white font-semibold rounded-lg shadow hover:bg-green-700">
+              Agregar Nuevo Servicio +
+            </button>
+  
+            <div class="flex gap-2 items-center">
+              <select [(ngModel)]="columnaBusqueda"
+                class="px-4 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300">
+                <option value="nombre">Nombre</option>
+                <option value="descripcion">Descripción</option>
+                <option value="requiereCupo">Requiere Cupo</option>
+              </select>
+  
+              <input
+                type="text"
+                [(ngModel)]="filtroBusqueda"
+                placeholder="Buscar"
+                class="px-4 py-2 border rounded-lg w-64 focus:outline-none focus:ring focus:border-blue-300" />
+            </div>
+          </div>
+  
+          <h2 class="text-xl font-bold text-gray-800 mb-4">Lista de Servicios</h2>
+  
+          <div class="overflow-x-auto rounded-lg border shadow-sm">
+            <table class="min-w-full text-sm bg-white">
+              <thead class="bg-gray-100 text-gray-700">
+                <tr>
+                  <th class="p-3 text-left">#</th>
+                  <th class="p-3 text-left">Nombre</th>
+                  <th class="p-3 text-left">Descripción</th>
+                  <th class="p-3 text-left">Requiere Cupo</th>
+                  <th class="p-3 text-left">Acciones</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let servicio of tiposServicioFiltrados; let i = index" class="border-t hover:bg-gray-50">
+                  <td class="p-3 font-semibold text-gray-700">#{{ i + 1 }}</td>
+                  <td class="p-3 font-medium text-gray-800">{{ servicio.nombre }}</td>
+                  <td class="p-3 text-gray-700">{{ servicio.descripcion }}</td>
+                  <td class="p-3 text-gray-600">{{ servicio.requiereCupo ? 'Sí' : 'No' }}</td>
+                  <td class="p-3">
+                    <div class="flex gap-2">
+                      <!-- <button
+                        [routerLink]="['/editservicio', servicio.id]"
+                        class="flex gap-2 items-center px-4 py-2 hover:bg-gray-100 text-indigo-600 border border-indigo-100 rounded">
+                        <i class="fas fa-pen"></i> Editar
+                      </button> -->
+                      <button
+                        (click)="eliminar(servicio.id)"
+                        class="flex gap-2 items-center px-4 py-2 hover:bg-gray-100 text-red-600 border border-red-100 rounded">
+                        <i class="fas fa-trash"></i> Eliminar
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+                <tr *ngIf="tiposServicioFiltrados.length === 0">
+                  <td colspan="5" class="text-center text-gray-500 py-4">
+                    <div class="inline-block animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-green-600"></div>
+                    <p class="mt-2 text-gray-600">Cargando servicios...</p>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+      </div>
+    </div>
+  </div>
+  

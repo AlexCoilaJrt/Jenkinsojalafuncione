@@ -1,0 +1,117 @@
+<app-navbar ></app-navbar>
+
+<!-- Sección principal -->
+<section
+  class="bg-green-500 text-white mt-40 py-8 px-6 w-full rounded-lg shadow-lg"
+  role="banner"
+>
+  <div class="max-w-6xl mx-auto text-center">
+    <h2
+      class="text-4xl font-bold mb-4 leading-tight tracking-tight font-serif"
+      tabindex="0"
+    >
+      Turismo Local
+    </h2>
+    <p
+      class="text-base sm:text-lg md:text-xl font-light mb-4 px-4 font-serif"
+      tabindex="0"
+    >
+      Descubre los encantos de Capachica. Explora destinos turísticos únicos,
+      actividades locales y la rica cultura que ofrece esta hermosa región.
+    </p>
+  </div>
+</section>
+
+<!-- Loader -->
+<div
+  *ngIf="isLoading"
+  class="flex justify-center items-center my-10"
+  role="status"
+  aria-live="polite"
+>
+  <svg
+    class="animate-spin h-8 w-8 text-green-600"
+    xmlns="http://www.w3.org/2000/svg"
+    fill="none"
+    viewBox="0 0 24 24"
+  >
+    <circle
+      class="opacity-25"
+      cx="12"
+      cy="12"
+      r="10"
+      stroke="currentColor"
+      stroke-width="4"
+    ></circle>
+    <path
+      class="opacity-75"
+      fill="currentColor"
+      d="M4 12a8 8 0 018-8v8H4z"
+    ></path>
+  </svg>
+  <span class="ml-2 text-green-700 font-semibold">Cargando lugares...</span>
+</div>
+
+<!-- Mensaje si no hay resultados -->
+<div
+  *ngIf="!isLoading && lugaresFiltrados.length === 0"
+  class="text-center mt-10 text-gray-700 font-semibold"
+  role="alert"
+  aria-live="assertive"
+>
+  No se encontraron lugares que coincidan con los filtros.
+</div>
+
+<!-- Grid con lugares filtrados -->
+<div
+  *ngIf="!isLoading && lugaresFiltrados.length > 0"
+  class="flex justify-center items-start gap-8 px-4 mt-6"
+  role="list"
+>
+  <div
+    class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 p-6 max-w-7xl mx-auto w-full"
+  >
+    <div
+      *ngFor="let lugar of lugaresFiltrados"
+      (click)="verDetallesLugar(lugar.id)"
+      class="bg-white rounded-lg shadow-lg overflow-hidden transition-transform transform hover:-translate-y-1 cursor-pointer"
+      role="listitem"
+      tabindex="0"
+      (keydown.enter)="verDetallesLugar(lugar.id)"
+      (keydown.space)="verDetallesLugar(lugar.id)"
+      [attr.aria-label]="'Ver detalles de ' + lugar.nombre"
+    >
+      <img
+        [src]="
+          lugar.imagenes?.length
+            ? 'https://twsevdzjdnwjhdysvecm.supabase.co/storage/v1/object/public/lugares-turisticos/' +
+              lugar.imagenes[0].url
+            : 'img/fam1.png'
+        "
+        alt="Imagen de {{ lugar.nombre }}"
+        loading="lazy"
+        class="rounded-t-xl w-full h-48 object-cover"
+      />
+
+      <div class="p-4">
+        <h3
+          class="text-xl font-semibold text-gray-800 mb-3 flex items-center gap-2"
+          tabindex="0"
+        >
+          <i class="fas fa-map-marker-alt text-green-500"></i>
+          {{ lugar.nombre }}
+        </h3>
+
+        <div class="flex items-center text-gray-600 mb-4">
+          <i class="fas fa-info-circle text-green-500 mr-2"></i>
+          <p class="text-sm line-clamp-3" tabindex="0">{{ lugar.descripcion }}</p>
+        </div>
+
+        <div class="flex items-center text-gray-600">
+          <i class="fas fa-location-arrow text-green-500 mr-2"></i>
+          <p class="text-sm" tabindex="0">{{ lugar.direccion }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

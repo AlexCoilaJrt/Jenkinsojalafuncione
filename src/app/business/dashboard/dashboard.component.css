@@ -1,0 +1,116 @@
+.dashboard-container {
+  display: flex;
+  min-height: 100vh;  /* Ocupa toda la altura de la pantalla */
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;  /* Asegura que padding y border estén incluidos en el tamaño total */
+}
+
+/* Sidebar */
+.sidebar {
+  width: 250px;
+  background-color: #f9fbfd;
+  padding: 20px;
+  border-right: 1px solid #ddd;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  height: 100vh;  /* Ocupa toda la altura de la pantalla */
+  position: sticky;
+  top: 0;
+}
+
+/* Contenido principal */
+.main-content {
+  flex: 1;
+  padding: 20px;
+  background-color: #f5f6f8;
+  height: 100vh;  /* Ocupa toda la altura de la pantalla */
+  overflow-y: auto; /* Permite que se desplace si es necesario */
+  margin: 0; /* Eliminar márgenes */
+}
+
+/* Caja de bienvenida */
+.welcome-box {
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 20px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+}
+
+/* Ajuste de las estadísticas */
+.stats-container {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+}
+
+.stat {
+  background: white;
+  padding: 15px 20px;
+  border-radius: 12px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+  min-width: 180px;
+  flex: 1;
+}
+
+/* Contenido y gráficas */
+.content-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  margin-bottom: 20px;
+}
+
+/* Publicaciones */
+.published {
+  flex: 2;
+}
+
+.cards {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+}
+
+/* Gráfico de barras */
+.visits {
+  flex: 1;
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+}
+
+.bar-chart {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  height: 150px;
+  margin-top: 10px;
+}
+
+.bar {
+  width: 12%;
+  background-color: #1eae52;
+  color: white;
+  font-size: 12px;
+  text-align: center;
+  border-radius: 4px 4px 0 0;
+}
+
+/* Ajustes globales */
+html, body {
+  height: 100%;  /* Se asegura que la altura cubra toda la pantalla */
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+body {
+  display: flex;
+  justify-content: flex-start; /* Alineación de contenido al principio */
+  overflow: hidden;  /* Elimina cualquier scroll innecesario */
+}

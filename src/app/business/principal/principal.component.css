@@ -1,0 +1,35 @@
+html, body {
+  position: relative;
+  height: 100%;
+}
+
+body {
+  background: #eee;
+  font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  color: #000;
+  margin: 0;
+  padding: 0;
+}
+
+swiper-container {
+  width: 100%;
+  height: 100%;
+}
+
+swiper-slide {
+  width: 300px;
+  height: 400px;
+  text-align: center;
+  font-size: 18px;
+  background: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease; /* Agregamos la transición */
+}
+
+swiper-slide:hover {
+  transform: scale(1.05); /* Efecto de escala al pasar el cursor */
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2); /* Agrega una sombra más pronunciada al hacer hover */
+}

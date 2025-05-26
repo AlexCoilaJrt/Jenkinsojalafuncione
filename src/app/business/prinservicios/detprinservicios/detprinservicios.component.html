@@ -1,0 +1,317 @@
+<app-navbar></app-navbar>
+<div class="ml-32 mr-32">
+    <section class="text-black py-8 px-6 w-full mt-40">
+        <div class="text-3xl font-bold mb-4" (click)="verDetallesEmprendimiento(emprendimientos.id)">
+            Emprendimiento: {{ emprendimientos.nombre }}
+        </div>
+        <h2 class="text-xl mb-4 text-green-500">
+            <i class="fa-solid fa-location-dot"></i> {{ emprendimientos.direccion }}
+        </h2>
+        <h2 class="text-4xl font-bold mb-4">
+            {{ servicios.nombre }}
+        </h2>
+        <!-- imagen -->
+        <div class="flex justify-center items-center gap-6 mt-8">
+            <div class="relative w-full h-64 md:h-80 lg:h-96 overflow-hidden rounded-xl">
+                <ng-container *ngIf="servicios.imagenes && servicios.imagenes.length; else noImages">
+                    <div *ngFor="let img of servicios.imagenes; let i = index"
+                        class="absolute inset-0 transition-opacity duration-500" [class.opacity-0]="i !== currentSlide"
+                        [class.opacity-100]="i === currentSlide">
+                        <img [src]="'https://twsevdzjdnwjhdysvecm.supabase.co/storage/v1/object/public/servicios/' + img.url"
+                            alt="Imagen {{ i+1 }}" class="w-full h-full object-cover" />
+                    </div>
+
+                    <!-- Flechas -->
+                    <button (click)="prevSlide()"
+                        class="absolute left-2 top-1/2 transform -translate-y-1/2 text-white bg-green-950 bg-opacity-100 hover:bg-opacity-75 rounded-full p-2">‹</button>
+                    <button (click)="nextSlide()"
+                        class="absolute right-2 top-1/2 transform -translate-y-1/2 text-white bg-green-950 bg-opacity-100 hover:bg-opacity-75 rounded-full p-2">›</button>
+                </ng-container>
+
+                <ng-template #noImages>
+                    <div class="flex items-center justify-center h-full bg-gray-100">
+                        <span class="text-gray-500">Sin imágenes</span>
+                    </div>
+                </ng-template>
+            </div>
+        </div>
+    </section>
+
+    <section class="bg-white p-6 mt-8 grid grid-cols-1 md:grid-cols-3 gap-6">
+        <!-- Columna Izquierda (2/3 ancho en md+) -->
+        <div class="md:col-span-2">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4">
+                {{ servicios.nombre }}
+            </h2>
+
+            <!-- anfitrión -->
+            <div *ngIf="emprendimientos.usuario?.persona" class="flex items-center p-4 border-b border-gray-200">
+                <div class="flex-shrink-0 mr-3">
+                    <div class="relative w-12 h-12 rounded-full overflow-hidden">
+                        <img src="img/chatgpt-image.png" alt="Foto de perfil de Barbara"
+                            class="object-cover w-full h-full" />
+                    </div>
+                </div>
+                <div class="flex flex-col">
+                    <div class="flex items-center">
+                        <h3 class="text-lg font-medium text-gray-900">
+                            Anfitrión: {{emprendimientos.usuario.persona.nombre}}
+                            {{emprendimientos.usuario.persona.apellidos}}
+                        </h3>
+                    </div>
+                    <p class="text-sm text-gray-600">
+                        Superanfitrión · 2 años anfitrionando
+                    </p>
+                </div>
+            </div>
+
+            <div class="container mx-auto px-4 py-6 border-b border-gray-200">
+                <!-- Descripción del alojamiento -->
+                <div class="text-gray-700">
+                    <p class="mb-4">
+                        {{ servicios.descripcion }}
+                    </p>
+                </div>
+            </div>
+
+            <div class="container mx-auto px-4 py-6">
+                <h2 class="text-2xl font-bold text-gray-900 mb-6">
+                    Lo que este lugar ofrece
+                </h2>
+
+                <!-- Si detallesServicio existe -->
+                <ng-container *ngIf="servicios.detallesServicio as detalles">
+                    <div *ngFor="let entry of detalles | keyvalue" class="mb-6">
+                        <h3 class="text-lg font-semibold text-gray-800">
+                            {{ (entry.key + '') | titlecase }}
+                        </h3>
+
+                        <!-- Si es array, listamos con getIterable() -->
+                        <ul *ngIf="entry.value instanceof Array; else singleValue" class="list-disc ml-6 mt-1">
+                            <li *ngFor="let item of getIterable(entry.value)">
+                                {{ item }}
+                            </li>
+                        </ul>
+
+                        <!-- Si no es array, mostramos su valor -->
+                        <ng-template #singleValue>
+                            <p class="mt-1 text-gray-700">{{ entry.value }}</p>
+                        </ng-template>
+                    </div>
+                </ng-container>
+            </div>
+        </div>
+
+        <!-- Columna Derecha (1/3 ancho en md+) -->
+        <div class="md:col-span-1 space-y-6">
+            <div class="container mx-auto px-4 py-6">
+                <!-- Precio -->
+                <div class="flex flex-col justify-start">
+                    <span class="text-lg font-semibold text-green-600">
+                        S/ {{ servicios.precioBase }}
+                    </span>
+                </div>
+                <h1 class="text-2xl font-bold text-gray-900">Reserva</h1>
+                <div>
+                    <form [formGroup]="dateForm" class="mt-6">
+                        <!-- Mostrar el formulario de fechas si servicios.tipoServicioId es 3 -->
+                        <div *ngIf="servicios.tipoServicioId === 3" class="items-center">
+                            <div class="flex">
+                                <div class="relative">
+                                    <input id="startDate" formControlName="startDate" type="date"
+                                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg p-2.5 w-full" />
+                                </div>
+                                <span class="mx-4 text-gray-500">to</span>
+                                <div class="relative">
+                                    <input id="endDate" formControlName="endDate" type="date"
+                                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg p-2.5 w-full" />
+                                </div>
+                            </div>
+
+                            <!-- Huéspedes -->
+                            <div class="m-3">
+                                <p class="font-semibold">Personas</p>
+                                <input type="number" formControlName="numeroPersonas"
+                                    class="p-2 border border-gray-300 rounded-lg w-full" min="1" />
+                            </div>
+                        </div>
+
+                        <!-- Mostrar solo un campo de fecha si servicios.tipoServicioId no es 3 -->
+                        <div *ngIf="servicios.tipoServicioId !== 3" class="mt-6">
+                            <label for="startDate" class="block text-lg font-semibold text-gray-900">Seleccionar
+                                fecha</label>
+                            <input id="startDate" formControlName="startDate" type="date"
+                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg p-2.5 w-full" />
+
+                            <!-- Huéspedes -->
+                            <div class="m-3">
+                                <p class="font-semibold">Personas</p>
+                                <input type="number" formControlName="numeroPersonas"
+                                    class="p-2 border border-gray-300 rounded-lg w-full" min="1" />
+                            </div>
+                        </div>
+                    </form>
+
+                    <!-- Mostrar información de noches y precio final solo cuando servicios.tipoServicioId sea 3 y las fechas estén seleccionadas -->
+                    <div *ngIf="totalPrice !== null" class="mt-4 text-lg text-gray-900">
+                        <!-- Mostrar precio final -->
+                        Total a pagar:
+                        <span class="text-lg font-semibold text-green-600">
+                            {{ totalPrice }}
+                            {{ servicios.moneda }}
+                        </span>
+                    </div>
+
+                    <!-- Mostrar mensaje cuando no se han seleccionado fechas (solo para servicios.tipoServicioId === 3) -->
+                    <div *ngIf="totalPrice === null && dateForm.valid && servicios.tipoServicioId === 3"
+                        class="mt-4 text-lg text-gray-900">
+                        Selecciona un rango de fechas para ver el precio total.
+                    </div>
+
+                    <!-- Mostrar mensaje cuando no se han seleccionado fechas (solo para servicios.tipoServicioId !== 3) -->
+                    <div *ngIf="totalPrice === null && dateForm.valid && servicios.tipoServicioId !== 3"
+                        class="mt-4 text-lg text-gray-900">
+                        Selecciona un número de personas para ver el precio total.
+                    </div>
+
+                </div>
+
+            </div>
+            <div class="flex justify-center">
+                <button class="w-1/2 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700" (click)="addToCart()">
+                    Añadir a carrito
+                </button>
+            </div>
+
+        </div>
+    </section>
+
+    <div class="container mx-auto px-4 py-6">
+        <!-- Separador superior -->
+        <div class="border-t border-gray-200 mb-6"></div>
+        <h2 class="text-2xl font-bold text-gray-900 mb-6">Reseñas</h2>
+        <!-- Lista de reseñas -->
+        <div class="space-y-8">
+            <!-- Reseña 1: Jorge -->
+            <div *ngIf="resenas.length > 0; else noResenas" class="flex">
+                <div *ngFor="let resena of resenas">
+                    <div class="flex-shrink-0 mr-4">
+                        <div class="w-12 h-12 rounded-full overflow-hidden">
+                            <img [src]="
+                  usuarios.imagenes?.length > 0
+                    ? usuarios.imagenes[0]
+                    : 'img/fam1.png'
+                " alt="{{ usuarios.nombre }}" class="rounded-t-xl w-full h-[250px] object-cover" />
+                        </div>
+                    </div>
+                    <div class="flex-grow">
+                        <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-1">
+                            <div>
+                                <h3 class="font-medium text-gray-900">
+                                    {{ usuarios.persona?.nombre || "Nombre no disponible"}}
+                                </h3>
+                            </div>
+                        </div>
+                        <div class="flex items-center mb-1">
+                            <div>
+                                <ng-container *ngFor="let i of [].constructor(5); let idx = index">
+                                    <i class="fas fa-star" [class.text-yellow-500]="idx < resena.calificacion"
+                                        [class.text-gray-300]="idx >= resena.calificacion">
+                                    </i>
+                                </ng-container>
+                            </div>
+                            <span class="mx-2 text-gray-500">·</span>
+                            <span class="text-sm text-gray-600">Hace 1 semana</span>
+                        </div>
+                        <p class="text-gray-800">
+                            {{ resena.comentario }}
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <ng-template #noResenas>
+                <p>No se encontraron reseñas para este servicio.</p>
+            </ng-template>
+        </div>
+    </div>
+
+    <section class="bg-white p-6 rounded-lg shadow-md mt-8">
+        <!-- Título -->
+        <h2 class="text-2xl font-bold text-gray-800">A dónde irás</h2>
+        <!-- Mapa embebido -->
+        <div class="mt-4 overflow-hidden rounded-lg">
+            <iframe *ngIf="mapUrl" [src]="mapUrl" class="w-full h-64 sm:h-80 md:h-96" style="border:0" allowfullscreen
+                loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        </div>
+
+        <div class="mt-4 text-gray-700" *ngIf="servicios">
+            <p>
+                <strong>Coordenadas:</strong>
+                {{ servicios.latitud }}, {{ servicios.longitud }}
+            </p>
+        </div>
+    </section>
+    <!-- Sección “Conoce al anfitrión” -->
+    <section class="mt-8 grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+        <!-- Tarjeta izquierda -->
+        <div class="bg-white rounded-2xl shadow-md p-6 flex flex-col items-center">
+            <div class="relative">
+                <img src="img/chatgpt-image.png" alt="Barbara" class="w-32 h-32 rounded-full object-cover" />
+                <!-- Icono de verificado -->
+                <div
+                    class="absolute bottom-0 right-0 bg-pink-600 w-10 h-10 rounded-full flex items-center justify-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M9 12l2 2l4 -4m5 2a9 9 0 11-18 0a9 9 0 0118 0z" />
+                    </svg>
+                </div>
+            </div>
+            <h3 class="mt-4 text-2xl font-bold">{{emprendimientos.usuario?.persona?.nombre}}
+                {{emprendimientos.usuario?.persona?.apellidos}}</h3>
+
+            <div class="mt-6 w-full border-t border-gray-200 pt-4 space-y-4">
+                <div class="flex justify-between">
+                    <span class="font-semibold text-lg">93</span>
+                    <span class="text-gray-500">Reseñas</span>
+                </div>
+                <div class="flex justify-between items-center">
+                    <span class="font-semibold text-lg">4.87<span class="text-yellow-500">★</span></span>
+                    <span class="text-gray-500">Calificación</span>
+                </div>
+                <div class="flex justify-between">
+                    <span class="font-semibold text-lg">2</span>
+                    <span class="text-gray-500">Años anfitrionando</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Detalles y llamada a la acción -->
+        <div class="flex flex-col justify-between">
+            <div>
+                <h2 class="text-2xl font-bold mb-2">Barbara es Superanfitrión</h2>
+                <p class="text-gray-700 mb-6">
+                    Los Superanfitriones tienen mucha experiencia, tienen valoraciones
+                    excelentes y se esfuerzan al máximo para ofrecerles a los huéspedes
+                    estadías maravillosas.
+                </p>
+
+                <h3 class="text-xl font-semibold mb-2">
+                    Información sobre el anfitrión
+                </h3>
+                <p class="text-gray-700 mb-1">
+                    <span class="font-semibold">Índice de respuesta:</span> 100 %
+                </p>
+                <p class="text-gray-700">
+                    <span class="font-semibold">Responde en menos de una hora</span>
+                </p>
+            </div>
+
+            <button
+                class="mt-6 px-6 py-3 bg-gray-900 text-white rounded-lg hover:bg-gray-800 w-full lg:w-auto text-center">
+                Mensaje con el anfitrión
+            </button>
+        </div>
+    </section>
+
+</div>

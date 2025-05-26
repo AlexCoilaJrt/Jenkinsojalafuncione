@@ -1,0 +1,362 @@
+<app-navbar></app-navbar>
+<div class="ml-32 mr-32">
+  <section class="text-black py-8 px-6 w-full mt-40">
+    <h2 class="text-4xl font-bold mb-4">
+      {{ emprendimiento.lugarTuristico?.nombre }}
+    </h2>
+    
+    <h2 class="text-2xl font-bold text-gray-800 mb-4">
+      {{ emprendimiento.nombre }}
+    </h2>
+    <p class="text-sm text-gray-600 mb-4">
+      {{ emprendimiento.descripcion }}
+    </p>
+    
+    
+    <div class="relative w-full h-96 overflow-hidden rounded-xl mt-8">
+      <ng-container *ngIf="emprendimiento.imagenes?.length; else noImages">
+        <div *ngFor="let img of emprendimiento.imagenes; let i = index"
+             class="absolute inset-0 transition-opacity duration-700 ease-in-out"
+             [class.opacity-0]="i !== currentSlide"
+             [class.opacity-100]="i === currentSlide">
+          <img [src]="'https://twsevdzjdnwjhdysvecm.supabase.co/storage/v1/object/public/emprendimientos/' + img.url"
+               alt="Imagen {{ i+1 }}"
+               class="w-full h-full object-cover" />
+        </div>
+
+        <!-- Flechas -->
+        <button (click)="prevSlide()" class="absolute left-4 top-1/2 -translate-y-1/2 bg-black bg-opacity-50 text-white rounded-full p-2">‹</button>
+        <button (click)="nextSlide()" class="absolute right-4 top-1/2 -translate-y-1/2 bg-black bg-opacity-50 text-white rounded-full p-2">›</button>
+      </ng-container>
+
+      <ng-template #noImages>
+        <div class="flex items-center justify-center h-full bg-gray-100">
+          <span class="text-gray-500">Sin imágenes</span>
+        </div>
+      </ng-template>
+    </div>
+  </section>
+
+  <section class="bg-white p-6 mt-8 grid grid-cols-1 md:grid-cols-3 gap-6">
+    <!-- Columna Izquierda -->
+    <div class="md:col-span-2">
+      
+
+      <!-- Campos adicionales solicitados -->
+<div class="space-y-2 text-gray-800 mb-6">
+  <p>
+    <strong>
+      <svg class="inline w-5 h-5 mr-1 text-gray-500" fill="currentColor" viewBox="0 0 24 24">
+        <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zM7 9c0-2.76 2.24-5 5-5s5 2.24 5 5c0 3.75-3 8.54-5 11.54C10 17.54 7 12.75 7 9z"/>
+        <circle cx="12" cy="9" r="2.5"/>
+      </svg>
+      Dirección:
+    </strong>
+    {{ emprendimiento.direccion }}
+  </p>
+  
+
+  <p *ngIf="emprendimiento.recomendaciones">
+    <strong>
+      <svg class="inline w-5 h-5 mr-1 text-green-500" fill="currentColor" viewBox="0 0 24 24">
+        <path d="M9 12l2 2 4-4" stroke="white" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      Recomendaciones:
+    </strong>
+    {{ emprendimiento.recomendaciones }}
+  </p>
+
+  <p *ngIf="emprendimiento.restricciones">
+    <strong>
+      <svg class="inline w-5 h-5 mr-1 text-red-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M18 6L6 18M6 6l12 12"/>
+      </svg>
+      Restricciones:
+    </strong>
+    {{ emprendimiento.restricciones }}
+  </p>
+
+  <p *ngIf="emprendimiento.contactoTelefono">
+    <strong>
+      <svg class="inline w-5 h-5 mr-1 text-blue-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M3 5h2l3.5 7-1.5 1.5L6 10l-3 3v1h3l5-5-1.5-1.5L7 13l3.5 7h2a2 2 0 002-2v-3l-1-1 1-1v-3a2 2 0 00-2-2z"/>
+      </svg>
+      Teléfono de contacto:
+    </strong>
+    {{ emprendimiento.contactoTelefono }}
+  </p>
+
+  <p *ngIf="emprendimiento.contactoEmail">
+    <strong>
+      <svg class="inline w-5 h-5 mr-1 text-purple-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M16 12H8m8 0a4 4 0 01-8 0m8 0a4 4 0 01-8 0m-2 6h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+      </svg>
+      Email de contacto:
+    </strong>
+    {{ emprendimiento.contactoEmail }}
+  </p>
+
+  <p *ngIf="emprendimiento.sitioWeb">
+    <strong>
+      <svg class="inline w-5 h-5 mr-1 text-indigo-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M10 14l-2-2m0 0l2-2m-2 2h12"/>
+      </svg>
+      Sitio web:
+    </strong>
+    <a [href]="emprendimiento.sitioWeb" target="_blank" class="text-indigo-600 hover:underline">
+      {{ emprendimiento.sitioWeb }}
+    </a>
+  </p>
+
+  <p *ngIf="emprendimiento.redesSociales">
+    <strong>
+      <svg class="inline w-5 h-5 mr-1 text-pink-500" fill="currentColor" viewBox="0 0 24 24">
+        <path d="M12 2.04c-5.52 0-10 4.48-10 10 0 4.84 3.44 8.88 7.97 9.77v-6.9H8.1v-2.87h1.87v-2.2c0-1.85 1.13-2.87 2.79-2.87.81 0 1.65.15 1.65.15v1.81h-.92c-.91 0-1.19.57-1.19 1.15v1.56h2.03l-.32 2.87h-1.71v6.9c4.53-.89 7.97-4.93 7.97-9.77 0-5.52-4.48-10-10-10z"/>
+      </svg>
+      Redes sociales:
+    </strong>
+    {{ emprendimiento.redesSociales }}
+  </p>
+
+  <p>
+    <strong>
+      <svg class="inline w-5 h-5 mr-1 text-gray-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+        <circle cx="12" cy="12" r="10" stroke-linecap="round" stroke-linejoin="round"/>
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3"/>
+      </svg>
+      Estado:
+    </strong>
+    {{ emprendimiento.estado }}
+  </p>
+</div>
+
+      <!-- Información del lugar -->
+      <div class="mt-6 p-4 flex items-center gap-4 border rounded-xl bg-gray-50">
+        <img src="assets/planet.png" alt="Foto del lugar" 
+             class="w-14 h-14 rounded-full object-cover shadow-md rotate-icon" />
+        <div>
+          <h3 class="text-lg font-semibold text-gray-900">Ubicación: {{ emprendimiento.ubicacion }}</h3>
+          <p class="text-sm text-indigo-600">✨ Popular entre los viajeros</p>
+        </div>
+      </div>
+
+      <div class="container mx-auto px-4 py-6">
+        <div class="mt-8 grid gap-6">
+      
+          <div class="flex gap-4">
+            <div class="p-3 rounded-xl bg-indigo-100 text-indigo-600">
+              <!-- Árbol con movimiento de balanceo -->
+              <svg class="w-6 h-6 sway-icon" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" 
+                xmlns="http://www.w3.org/2000/svg">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 2C10 6 7 10 12 15C17 10 14 6 12 2z" />
+                <rect x="11" y="15" width="2" height="5" rx="1" ry="1" />
+              </svg>
+            </div>
+            <div>
+              <h4 class="text-lg font-semibold text-gray-900">Ideal para aventuras al aire libre</h4>
+              <p class="text-sm text-gray-600">Este lugar ofrece vistas espectaculares para disfrutar de la naturaleza.</p>
+            </div>
+          </div>
+      
+          <div class="flex gap-4">
+            <div class="p-3 rounded-xl bg-green-100 text-green-600">
+              <!-- Grupo de personas con pulso -->
+              <svg class="w-6 h-6 pulse-icon" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" 
+                xmlns="http://www.w3.org/2000/svg">
+                <circle cx="9" cy="7" r="4" />
+                <circle cx="17" cy="7" r="4" />
+                <path stroke-linecap="round" stroke-linejoin="round" d="M3 21v-2a4 4 0 014-4h10a4 4 0 014 4v2" />
+              </svg>
+            </div>
+            <div>
+              <h4 class="text-lg font-semibold text-gray-900">Espacios para grupos grandes</h4>
+              <p class="text-sm text-gray-600">Amplias áreas para disfrutar con familia o amigos.</p>
+            </div>
+          </div>
+      
+        </div>
+      </div>
+    </div>
+<!-- Servicios que ofreces (lista vertical con scroll) -->
+<div class="bg-white shadow-md rounded-xl p-6 mt-6 w-full max-w-3xl mx-auto">
+  <h3 class="text-2xl font-semibold text-gray-900 mb-4">Servicios que ofreces</h3>
+
+  <!-- Contenedor con alto fijo y scroll vertical -->
+  <div class="max-h-[500px] overflow-y-auto space-y-4">
+    <div
+      *ngFor="let servicio of serviciosFiltrados"
+      class="flex items-center gap-4 p-4 border rounded-xl hover:shadow-lg transition"
+      (click)="goToServicio(servicio)"
+    >
+      <!-- Imagen cuadrada -->
+      <div class="w-24 h-24 flex-shrink-0 overflow-hidden rounded-lg">
+        <img
+          [src]="servicio.imagenes?.length > 0
+            ? 'https://twsevdzjdnwjhdysvecm.supabase.co/storage/v1/object/public/servicios/' + servicio.imagenes[0].url
+            : 'https://via.placeholder.com/150?text=Sin+imagen'"
+          alt="{{ servicio.nombre }}"
+          class="w-full h-full object-cover"
+        />
+      </div>
+      <!-- Texto -->
+      <div class="flex-1">
+        <h4 class="text-lg font-medium text-gray-800 truncate">
+          {{ servicio.nombre }}
+        </h4>
+        <!-- Badge de tipo de servicio -->
+        <span class="inline-block mt-1 px-2 py-0.5 text-xs font-semibold text-white bg-indigo-600 rounded-full">
+          Tipo: {{ servicio.tipoServicioId }}
+        </span>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+  </section>
+  
+
+  <section class="py-10">
+    <div class="bg-white shadow-lg rounded-xl p-6">
+      <h2 class="text-3xl font-semibold text-gray-900 mb-3">📍 ¿A dónde irás?</h2>
+  
+      <p class="text-md text-gray-600 mb-5">
+        {{ emprendimiento.direccion }}
+      </p>
+  
+      <div class="rounded-xl overflow-hidden border border-gray-200 shadow-sm">
+        <iframe *ngIf="mapUrl"
+                [src]="mapUrl"
+                class="w-full h-80"
+                style="border:0"
+                allowfullscreen
+                loading="lazy"
+                referrerpolicy="no-referrer-when-downgrade">
+        </iframe>
+      </div>
+  
+      <div class="mt-5 text-sm text-gray-700 flex items-center gap-2">
+        <span class="font-medium">📌 Coordenadas:</span>
+        <span>{{ emprendimiento.latitud }}, {{ emprendimiento.longitud }}</span>
+      </div>
+    </div>
+  </section>
+ 
+<!-- Lugares Turísticos Relacionados (ahora en la posición de Servicios) -->
+<div class="bg-white shadow-md rounded-xl p-6 mt-6">
+  <h3 class="text-2xl font-semibold text-gray-900 mb-4">Lugares turísticos relacionados</h3>
+
+  <div class="max-h-[500px] overflow-y-auto">
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div *ngFor="let lugar of lugaresTuristicos"
+           class="cursor-pointer border rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition-shadow flex flex-col bg-white"
+           (click)="goToLugarTuristico(lugar)">
+
+        <!-- Imagen con título superpuesto -->
+        <div class="relative w-full h-48">
+          <img
+            [src]="lugar.imagenes?.length > 0
+                    ? 'https://twsevdzjdnwjhdysvecm.supabase.co/storage/v1/object/public/lugares-turisticos/' + lugar.imagenes[0].url
+                    : 'https://via.placeholder.com/300x200?text=Sin+imagen'"
+            alt="{{ lugar.nombre }}"
+            class="w-full h-full object-cover"
+          />
+          <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 to-transparent px-4 py-2">
+            <h4 class="text-white text-lg font-semibold truncate">{{ lugar.nombre }}</h4>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+
+  
+<!-- Sección “Conoce al anfitrión” -->
+<section class="py-12 grid grid-cols-1 lg:grid-cols-2 gap-10">
+  <div class="bg-white p-8 rounded-2xl shadow-xl text-center">
+    <div class="relative">
+      <img src="img/chatgpt-image.png" class="w-36 h-36 rounded-full object-cover border-4 border-white shadow-md" alt="Anfitrión" />
+      <div class="absolute -bottom-2 -right-2 w-10 h-10 bg-pink-600 rounded-full flex items-center justify-center">
+        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2l4-4m5 2a9 9 0 11-18 0a9 9 0 0118 0z" />
+        </svg>
+      </div>
+    </div>
+    <h3 class="mt-5 text-2xl font-bold text-gray-900">{{ emprendimiento.usuario?.persona?.nombre }} {{ emprendimiento.usuario?.persona?.apellidos }}</h3>
+    <p class="text-sm text-gray-500">Superanfitrión</p>
+    <div class="mt-6 border-t pt-4">
+      <div class="flex justify-between text-gray-700 text-sm">
+        <span><strong>93</strong> Reseñas</span>
+        <span><strong class="text-yellow-500">4.87★</strong> Calificación</span>
+        <span><strong>2</strong> Años</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="flex flex-col justify-between">
+    <div>
+      <h2 class="text-3xl font-extrabold text-gray-900 mb-4">Superanfitrión verificado</h2>
+      <p class="text-gray-700 mb-6 leading-relaxed">
+        Los Superanfitriones tienen una amplia experiencia y excelentes valoraciones. Se esfuerzan al máximo para que vivas una estadía inolvidable.
+      </p>
+      <h3 class="text-xl font-semibold text-gray-900 mb-3">Información del anfitrión</h3>
+      <ul class="text-gray-700 space-y-2">
+        <li><strong>Índice de respuesta:</strong> 100%</li>
+        <li><strong>Tiempo de respuesta:</strong> Menos de una hora</li>
+      </ul>
+    </div>
+    <button class="mt-8 px-6 py-3 bg-indigo-600 text-white rounded-lg hover:bg-indigo-500 transition">Enviar mensaje al anfitrión</button>
+  </div>
+</section>
+
+<!-- Sección de información del anfitrión con diseño refinado -->
+<section class="mt-10 bg-white border border-gray-200 rounded-2xl shadow-sm p-6">
+  <!-- Encabezado -->
+  <div class="mb-4">
+    <h2 class="text-xl font-semibold text-gray-900">Conoce al anfitrión</h2>
+  </div>
+
+  <!-- Info personal -->
+  <div class="flex flex-col sm:flex-row sm:justify-between gap-6">
+    <div class="space-y-2 text-gray-700 text-sm">
+      <div class="flex items-center">
+        <svg class="w-5 h-5 mr-2 text-indigo-500" fill="none" stroke="currentColor" stroke-width="2"
+          viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round"
+            d="M3 5h12M9 3v2m0 16v2m8-18h2M5 21h2m12-2v-2m0-12V3m4 4h-2m-6 0H7m0 16H5m16 0h-2" />
+        </svg>
+        Hablo inglés y español
+      </div>
+      <div class="flex items-center">
+        <svg class="w-5 h-5 mr-2 text-indigo-500" fill="none" stroke="currentColor" stroke-width="2"
+          viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round"
+            d="M12 8c-1.104 0-2 .896-2 2s.896 2 2 2s2-.896 2-2s-.896-2-2-2zm0-6C6.477 2 2 6.477 2 12s4.477 10 10 10s10-4.477 10-10S17.523 2 12 2z" />
+        </svg>
+        Vive en Lima, Perú
+      </div>
+    </div>
+
+    <div class="sm:w-1/2 text-sm text-gray-700">
+      <p>
+        ¡Hola! Soy <span class="font-semibold text-black">Barbara</span>, mamá de familia. Alquilo un lindo
+        departamento totalmente equipado con una hermosa vista al...
+        <a href="#" class="text-indigo-600 font-semibold hover:underline">Mostrar más ›</a>
+      </p>
+    </div>
+  </div>
+
+  <!-- Nota de seguridad -->
+  <div class="mt-6 pt-4 border-t border-gray-200 flex items-center text-sm text-gray-600">
+    <svg class="w-5 h-5 mr-2 text-pink-600" fill="none" stroke="currentColor" stroke-width="2"
+      viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round"
+        d="M12 14l9-5l-9-5l-9 5l9 5z M12 14l6.16-3.422M12 14l-6.16-3.422M12 14v7" />
+    </svg>
+    Para proteger tus pagos, usa siempre Airbnb a la hora de transferir dinero y comunicarte con los anfitriones.
+  </div>
+</section>
+
+</div>

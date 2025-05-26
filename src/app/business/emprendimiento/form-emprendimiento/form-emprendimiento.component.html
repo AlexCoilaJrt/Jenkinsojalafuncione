@@ -1,0 +1,154 @@
+<!-- form-emprendimiento.component.html -->
+<div class="flex">
+  <app-sidebar class="w-[260px] fixed h-screen z-20"></app-sidebar>
+  <div class="flex-1 ml-[260px]">
+    <app-navbar class="fixed top-0 left-[260px] right-0 h-[64px] z-10 bg-white border-b"></app-navbar>
+
+    <div class="m-[64px] pt-[64px]"> <!-- Padding-top para no tapar por el navbar -->
+      <div class="max-w-3xl mx-auto p-6 bg-white rounded-lg shadow-lg">
+        <h2 class="text-2xl font-bold mb-6 text-gray-800">
+          {{ isEdit ? 'Editar Emprendimiento' : 'Crear Emprendimiento' }}
+        </h2>
+
+        <form [formGroup]="emprendimientoForm" (ngSubmit)="guardarEmprendimiento()" class="space-y-6">
+
+          <!-- Nombre -->
+          <div>
+            <label for="nombre" class="block text-sm font-semibold text-gray-700">Nombre</label>
+            <input id="nombre" type="text" formControlName="nombre" class="w-full p-2 border rounded-md mt-2"
+              [class.border-red-500]="emprendimientoForm.get('nombre')?.invalid && emprendimientoForm.get('nombre')?.touched">
+          </div>
+
+
+          <select formControlName="lugarTuristicoId" required class="w-full p-2 border rounded-md mt-2">
+            <option [ngValue]="null" disabled selected>Seleccione un lugar turístico</option>
+            <option *ngFor="let lugar of lugaresTuristicos" [ngValue]="lugar.id">
+              {{ lugar.nombre }}
+            </option>
+          </select>
+
+
+          <!-- Fecha de Aprobación -->
+          <div>
+            <label for="fechaAprobacion" class="block text-sm font-semibold text-gray-700">Fecha de Aprobación</label>
+            <input id="fechaAprobacion" type="date" formControlName="fechaAprobacion"
+              class="w-full p-2 border rounded-md mt-2">
+          </div>
+
+          <!-- Descripción -->
+          <div>
+            <label for="descripcion" class="block text-sm font-semibold text-gray-700">Descripción</label>
+            <textarea id="descripcion" formControlName="descripcion" class="w-full p-2 border rounded-md mt-2"
+              rows="4"></textarea>
+          </div>
+
+          <div>
+            <label for="tipo" class="block text-sm font-semibold text-gray-700">Tipo de Emprendimiento</label>
+            <select id="tipo" formControlName="tipo" class="w-full p-2 border rounded-md mt-2">
+              <option *ngFor="let t of tipos" [value]="t">{{ t }}</option>
+              <option value="Otro">Otro...</option> <!-- Opción para escribir -->
+            </select>
+            <input *ngIf="emprendimientoForm.get('tipo')?.value === 'Otro'" type="text" formControlName="tipo"
+              class="w-full p-2 border rounded-md mt-2" placeholder="Escribe un tipo..." />
+          </div>
+
+
+          <!-- Usuario -->
+          <div>
+            <label for="usuarioId" class="block text-sm font-semibold text-gray-700">Usuario</label>
+            <select id="usuarioId" formControlName="usuarioId" class="w-full p-2 border rounded-md mt-2">
+              <option [ngValue]="null" disabled selected>Seleccione un Usuario</option>
+              <option *ngFor="let u of usuarios" [ngValue]="u.id">
+                {{ u.persona?.nombre }} {{ u.persona?.apellidos }} – {{ u.email }}
+              </option>
+            </select>
+            <div *ngIf="emprendimientoForm.get('usuarioId')?.invalid && emprendimientoForm.get('usuarioId')?.touched"
+              class="text-red-600 text-sm mt-1">
+              Debes seleccionar un usuario válido.
+            </div>
+          </div>
+
+
+
+
+
+          <!-- Dirección -->
+          <div>
+            <label for="direccion" class="block text-sm font-semibold text-gray-700">Dirección</label>
+            <input id="direccion" type="text" formControlName="direccion" class="w-full p-2 border rounded-md mt-2">
+          </div>
+
+          <!-- Latitud / Longitud -->
+          <div class="grid grid-cols-2 gap-4">
+            <div>
+              <label for="latitud" class="block text-sm font-semibold text-gray-700">Latitud</label>
+              <input id="latitud" type="number" formControlName="latitud" class="w-full p-2 border rounded-md mt-2">
+            </div>
+            <div>
+              <label for="longitud" class="block text-sm font-semibold text-gray-700">Longitud</label>
+              <input id="longitud" type="number" formControlName="longitud" class="w-full p-2 border rounded-md mt-2">
+            </div>
+          </div>
+
+          <!-- Contacto -->
+          <div class="grid grid-cols-2 gap-4">
+            <div>
+              <label for="contactoTelefono" class="block text-sm font-semibold text-gray-700">Teléfono</label>
+              <input id="contactoTelefono" type="text" formControlName="contactoTelefono"
+                class="w-full p-2 border rounded-md mt-2">
+            </div>
+            <div>
+              <label for="contactoEmail" class="block text-sm font-semibold text-gray-700">Correo</label>
+              <input id="contactoEmail" type="email" formControlName="contactoEmail"
+                class="w-full p-2 border rounded-md mt-2">
+            </div>
+          </div>
+
+          <!-- Sitio Web -->
+          <div>
+            <label for="sitioWeb" class="block text-sm font-semibold text-gray-700">Sitio Web</label>
+            <input id="sitioWeb" type="url" formControlName="sitioWeb" class="w-full p-2 border rounded-md mt-2">
+          </div>
+
+          <!-- Imágenes: subir desde el ordenador -->
+          <div>
+            <label class="block text-sm font-semibold text-gray-700">Imágenes</label>
+            <!-- Input para seleccionar varios archivos -->
+            <input type="file" multiple accept="image/*" (change)="onFileChange($event)"
+              class="w-full p-2 border rounded-md mt-2" />
+
+            <!-- Previsualización de las imágenes seleccionadas -->
+            <div class="grid grid-cols-4 gap-2 mt-4">
+              <div *ngFor="let url of previewUrls; let i = index" class="relative">
+                <img [src]="url" class="w-full h-24 object-cover rounded-lg" />
+                <button type="button" (click)="removeImage(i)"
+                  class="absolute top-1 right-1 bg-white rounded-full p-1 shadow">
+                  ✕
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Estado -->
+          <div>
+            <label for="estado" class="block text-sm font-semibold text-gray-700">Estado</label>
+            <select id="estado" formControlName="estado" class="w-full p-2 border rounded-md mt-2">
+              <option value="Activo">Activo</option>
+              <option value="Inactivo">Inactivo</option>
+            </select>
+          </div>
+
+          <!-- Botones -->
+          <div class="flex justify-between mt-6">
+            <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700">
+              Guardar
+            </button>
+            <button type="button" (click)="cancelar()" class="px-4 py-2 bg-gray-300 rounded-md hover:bg-gray-400">
+              Cancelar
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

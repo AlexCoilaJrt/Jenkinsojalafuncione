@@ -1,0 +1,183 @@
+<!-- NAVBAR FIJO -->
+<div class="fixed top-0 left-0 w-full z-50 bg-white shadow">
+  <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+    <!-- Logo -->
+    <img src="assets/logo-capachica.png" class="h-24" />
+    <div class="flex-1 relative h-12 flex justify-center items-center">
+      <nav class="absolute flex gap-4 font-medium text-gray-700 transition-all w-full">
+        <div class="flex border rounded-full shadow h-16 overflow-hidden max-w-4xl mx-auto">
+          <!-- ¿Qué buscas? -->
+          <div class="w-1/3 px-4 py-3 border-r">
+            <select [(ngModel)]="searchSelection" class="w-full border rounded px-3 py-2" placeholder="¿Qué buscas?">
+              <option value="" disabled selected>¿Qué buscas?</option>
+              <optgroup label="Emprendimientos">
+                <option *ngFor="let n of emprendimientoNombres" [value]="n">{{ n }}</option>
+              </optgroup>
+              <optgroup label="Paquetes turísticos">
+                <option *ngFor="let p of paqueteNombres" [value]="p">{{ p }}</option>
+              </optgroup>
+              <optgroup label="Tipos de servicios">
+                <option *ngFor="let s of tiposServicios" [value]="s">{{ s }}</option>
+              </optgroup>
+            </select>
+          </div>
+          <!-- ¿Dónde? -->
+          <div class="w-1/3 px-4 py-3 border-r">
+            <select [(ngModel)]="searchSelectionLugar" class="w-full border rounded px-3 py-2" placeholder="¿Dónde?">
+              <option value="" disabled selected>¿Dónde?</option>
+              <option value="">Todos los lugares</option>
+              <option *ngFor="let loc of lugarOpciones" [value]="loc">{{ loc }}</option>
+            </select>
+          </div>
+          <!-- ¿Cuándo? -->
+          <div class="w-1/3 px-4 py-3">
+            <input type="date" [(ngModel)]="fechaInferior" class="w-full border rounded px-3 py-2"
+              placeholder="¿Cuándo?" />
+          </div>
+          <!-- Botón Buscar -->
+          <div class="flex items-center px-4">
+            <button (click)="buscar()" class="px-4 py-2 bg-green-500 text-white rounded-full">
+              <i class="fas fa-search"></i>
+            </button>
+          </div>
+        </div>
+      </nav>
+    </div>
+
+
+
+    <!-- Login/Register -->
+    <div class="flex gap-4" *ngIf="!isLoggedIn()">
+      <div class="relative inline-block">
+        <button routerLink="/carrito" class="px-4 py-2 bg-green-500 text-white rounded-xl relative">
+          <i class="fa-solid fa-cart-shopping text-xl"></i>
+
+          <!-- Contador -->
+          <span *ngIf="cartItems.length > 0"
+            class="absolute -top-1 -right-1 bg-red-600 text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center">
+            {{ cartItems.length }}
+          </span>
+        </button>
+      </div>
+      <button routerLink="/login" class="px-4 py-2 border rounded-xl">Ingresar</button>
+      <button routerLink="/register" class="px-4 py-2 bg-green-500 text-white rounded-xl">Registrarse</button>
+    </div>
+
+    <div class="flex gap-4" *ngIf="isLoggedIn()">
+      <div class="relative inline-block">
+        <button routerLink="/carrito" class="px-4 py-2 bg-green-500 text-white rounded-xl relative">
+          <i class="fa-solid fa-cart-shopping text-xl"></i>
+
+          <!-- Contador -->
+          <span *ngIf="cartItems.length > 0"
+            class="absolute -top-1 -right-1 bg-red-600 text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center">
+            {{ cartItems.length }}
+          </span>
+        </button>
+      </div>
+
+
+      <button id="dropdownDefaultButton" data-dropdown-toggle="dropdown23"
+        class="text-white bg-green-500 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center"
+        type="button">
+        <i class="fa-solid fa-user"></i>
+        <svg class="w-2.5 h-2.5 ms-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+          viewBox="0 0 10 6">
+          <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="m1 1 4 4 4-4" />
+        </svg>
+      </button>
+
+      <!-- Dropdown menu -->
+      <div id="dropdown23" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow-sm w-44 ">
+        <ul class="py-2 text-sm text-gray-700 " aria-labelledby="dropdownDefaultButton">
+          <li>
+            <button routerLink="/misreservas" class="block px-4 w-full py-2 hover:bg-gray-100">Mis reservas</button>
+          </li>
+          <li>
+            <button (click)="logout()" class="block px-4 w-full py-2 hover:bg-gray-100">Pagos pendientes</button>
+          </li>
+          <li>
+            <button (click)="logout()" class="block px-4 w-full py-2 hover:bg-gray-100">Pagos realizados</button>
+          </li>
+          <li>
+            <button (click)="logout()" class="block px-4 w-full py-2 hover:bg-gray-100"><i
+                class="fa-solid fa-right-from-bracket"></i> Cerrar secion</button>
+          </li>
+        </ul>
+      </div>
+
+    </div>
+
+  </div>
+  <div *ngIf="!ocultarNav"
+    class="flex gap-6 overflow-x-auto whitespace-nowrap text-sm text-gray-600 pl-10 pr-10 pt-4 pb-4 bg-white ">
+
+    <button routerLink="" routerLinkActive="text-green-600" class="flex flex-col items-center flex-shrink-0">
+      <i class="fas fa-store"></i>
+      <span>Principal</span>
+    </button>
+
+    <button routerLink="/prinemprendimiento" routerLinkActive="text-green-600"
+      class="flex flex-col items-center flex-shrink-0">
+      <i class="fas fa-store"></i>
+      <span>Emprendimientos</span>
+    </button>
+
+    <button routerLink="/prinlugares" routerLinkActive="text-green-600"
+      class="flex flex-col items-center flex-shrink-0">
+      <i class="fas fa-landmark"></i>
+      <span>Lugares Turísticos</span>
+    </button>
+
+    <button *ngFor="let tipo of tiposServicio" [routerLink]="['/prinservicios', tipo.id]"
+      routerLinkActive="text-green-600" (click)="refreshData(tipo.id)" class="flex flex-col items-center flex-shrink-0">
+      <i class="fas fa-landmark"></i>
+      <p>{{ tipo.nombre }}</p>
+    </button>
+  </div>
+
+
+  <!-- Cards de Resultados -->
+  <div *ngIf="resultados.length" class="mt-8 px-6">
+    <h2 class="text-2xl font-semibold mb-6">Resultados</h2>
+    <div class="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
+      <div *ngFor="let item of resultados"
+        class="group bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-shadow duration-300">
+        <!-- Imagen (pon aquí item.imagen si la tienes) -->
+        <div class="h-48 bg-gray-100 flex items-center justify-center overflow-hidden">
+          <img *ngIf="item.imagenUrl; else placeholder" [src]="item.imagenUrl" alt="{{ item.nombre }}"
+            class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+          <ng-template #placeholder>
+            <span class="text-gray-400">Sin imagen</span>
+          </ng-template>
+        </div>
+        <div class="p-4 flex flex-col h-full">
+          <!-- Título y precio en línea -->
+          <div class="flex justify-between items-center mb-2">
+            <h3 class="text-lg font-bold text-gray-800 line-clamp-1">{{ item.nombre }}</h3>
+            <span *ngIf="item.precio" class="text-green-600 font-semibold">
+              S/{{ item.precio }}
+            </span>
+          </div>
+          <!-- Descripción breve -->
+          <p class="text-sm text-gray-600 mb-4 line-clamp-2">
+            {{ item.descripcion }}
+          </p>
+          <!-- Botón y rating abajo -->
+          <div class="mt-auto flex items-center justify-between">
+            <button (click)="router.navigate([tipoBusqueda, item.id])"
+              class="px-4 py-2 bg-green-500 text-white rounded-full text-sm font-medium hover:bg-green-600 transition-colors">
+              Ver más
+            </button>
+
+            <div *ngIf="item.rating" class="flex items-center text-yellow-500 text-sm">
+              <i class="fas fa-star mr-1"></i> {{ item.rating }}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>

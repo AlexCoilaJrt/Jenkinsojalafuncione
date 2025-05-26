@@ -1,0 +1,73 @@
+<div class="flex">
+  <app-sidebar class="w-[260px] fixed h-screen z-20"></app-sidebar>
+  <div class="flex-1 ml-[260px]">
+    <app-navbar class="fixed top-0 left-[260px] right-0 h-[64px] z-10 bg-white border-b"></app-navbar>
+
+    <div class="m-[80px] ">
+      <div class="max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-lg">
+        <h2 class="text-2xl font-bold mb-4 text-gray-800">
+          {{ isEdit ? 'Editar Usuario' : 'Registrar Usuario' }}
+        </h2>
+        <form [formGroup]="usuarioForm" (ngSubmit)="guardarUsuario()" enctype="multipart/form-data">
+          <div class="space-y-6">
+            <div class="grid md:grid-cols-2 gap-6">
+              <div>
+                <label class="block font-medium text-gray-700">Nombre</label>
+                <input type="text" formControlName="nombre" placeholder="Nombre" class="border p-3 rounded w-full" required />
+              </div>
+              <div>
+                <label class="block font-medium text-gray-700">Apellidos</label>
+                <input type="text" formControlName="apellidos" placeholder="Apellidos" class="border p-3 rounded w-full" required />
+              </div>
+
+              <div>
+                <label class="block font-medium text-gray-700">Teléfono</label>
+                <input type="text" formControlName="telefono" placeholder="Teléfono" class="border p-3 rounded w-full" />
+              </div>
+              <div>
+                <label class="block font-medium text-gray-700">Dirección</label>
+                <input type="text" formControlName="direccion" placeholder="Dirección" class="border p-3 rounded w-full" />
+              </div>
+
+              <!-- Imagen de perfil -->
+              <div>
+                <label class="block font-medium text-gray-700">Foto de Perfil</label>
+                <input type="file" accept="image/*" (change)="onFileChange($event)" class="border p-3 rounded w-full" />
+                <div *ngIf="previewUrl" class="mt-2">
+                  <img [src]="previewUrl" alt="Vista previa" class="w-32 h-32 object-cover rounded border shadow" />
+                </div>
+              </div>
+
+              <div>
+                <label class="block font-medium text-gray-700">Fecha de Nacimiento</label>
+                <input type="date" formControlName="fechaNacimiento" class="border p-3 rounded w-full" />
+              </div>
+              <div>
+                <label class="block font-medium text-gray-700">Correo Electrónico</label>
+                <input type="email" formControlName="email" placeholder="correo@ejemplo.com" class="border p-3 rounded w-full" required />
+              </div>
+
+              <div>
+                <label class="block font-medium text-gray-700">Contraseña</label>
+                <input [type]="mostrarPassword ? 'text' : 'password'" formControlName="password" placeholder="Contraseña" class="border p-3 rounded w-full" />
+              </div>
+              <div>
+                <label class="block font-medium text-gray-700">Confirmar Contraseña</label>
+                <input [type]="mostrarPassword ? 'text' : 'password'" formControlName="confirmPassword" placeholder="Confirmar contraseña" class="border p-3 rounded w-full" />
+              </div>
+            </div>
+
+            <div class="flex justify-end gap-6 mt-6">
+              <button type="submit" class="bg-green-600 text-white px-8 py-3 rounded hover:bg-green-700">
+                {{ isEdit ? 'Actualizar' : 'Guardar' }}
+              </button>
+              <button type="button" class="bg-gray-300 text-gray-800 px-8 py-3 rounded hover:bg-gray-400" (click)="cancelar()">
+                Cancelar
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

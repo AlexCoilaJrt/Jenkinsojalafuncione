@@ -1,0 +1,56 @@
+<app-navbar></app-navbar>
+
+<div class="flex justify-center items-start pt-44 gap-8 mt-10 px-4">
+  <!-- Contenedor de información -->
+  <div class="max-w-4xl w-full md:w-[700px] p-6 bg-white shadow-lg rounded-xl">
+    <h1 class="text-3xl font-bold text-gray-800 mb-4">{{ emprendimiento?.nombre }}</h1>
+
+    <p class="text-gray-600 text-sm mb-2">
+      <strong>Dirección:</strong> {{ emprendimiento?.direccion }}
+    </p>
+
+    <p class="text-gray-600 text-sm mb-2">
+      <strong>Tipo:</strong> {{ emprendimiento?.tipo }}
+    </p>
+
+    <div class="mt-4">
+      <h2 class="text-xl font-semibold text-gray-700 mb-2">Descripción</h2>
+      <p class="text-gray-700 text-justify">{{ emprendimiento?.descripcion }}</p>
+    </div>
+
+    <div class="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-4">
+      <div>
+        <p><strong class="text-gray-700">Teléfono:</strong> {{ emprendimiento?.contacto_telefono }}</p>
+        <p><strong class="text-gray-700">Correo:</strong> {{ emprendimiento?.contacto_email }}</p>
+      </div>
+    </div>
+
+    <div class="mt-6">
+      <h2 class="text-xl font-semibold text-gray-700 mb-2">Redes Sociales</h2>
+      <ul class="list-disc list-inside text-blue-600">
+        <li *ngIf="emprendimiento?.redes_sociales?.facebook">
+          <a href="https://{{ emprendimiento.redes_sociales.facebook }}" target="_blank">Facebook</a>
+        </li>
+        <li *ngIf="emprendimiento?.redes_sociales?.instagram">
+          <a href="https://{{ emprendimiento.redes_sociales.instagram }}" target="_blank">Instagram</a>
+        </li>
+        <li *ngIf="emprendimiento?.redes_sociales?.etsy">
+          <a href="https://{{ emprendimiento.redes_sociales.etsy }}" target="_blank">Etsy</a>
+        </li>
+      </ul>
+    </div>
+
+    <div class="mt-10 text-center">
+      <button routerLink="/" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-2 rounded-lg">
+        ← Volver
+      </button>
+    </div>
+  </div>
+
+  <!-- Imagen destacada -->
+  <div class="hidden md:block">
+    <img src="img/fam1.png" alt="Imagen de emprendimiento" class="w-80 h-auto rounded-xl shadow-md">
+  </div>
+</div>
+
+

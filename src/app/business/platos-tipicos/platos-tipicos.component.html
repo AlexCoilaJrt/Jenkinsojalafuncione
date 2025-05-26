@@ -1,0 +1,79 @@
+<div class="flex">
+  <app-sidebar class="w-[260px] fixed h-screen z-20"></app-sidebar>
+  <div class="flex-1 ml-[260px]">
+    <app-navbar class="fixed top-0 left-[260px] right-0 h-[64px] z-10 bg-white border-b"></app-navbar>
+
+    <div class="m-[64px]">
+      <div class="p-6 bg-gray-50">
+        <div class="flex justify-between items-center mb-4">
+          <div class="flex gap-2 items-center">
+            <button class="flex items-center gap-2 px-4 py-2 bg-white border rounded shadow">
+              <i class="fas fa-filter text-gray-500"></i> Filtros
+            </button>
+            <button routerLink="/newplatos" class="px-4 py-2 bg-green-500 text-white font-semibold rounded-lg shadow hover:bg-green-700">
+              Agregar Nuevo Plato tipico +
+            </button>
+          </div>
+          <input type="text" placeholder="Search" class="px-4 py-2 border rounded-lg w-64 focus:outline-none focus:ring focus:border-blue-300" />
+        </div>
+
+        <h2 class="text-xl font-bold text-gray-800 mb-4">Lista de Platos tipicos</h2>
+        <div class="overflow-x-auto">
+          <table class="min-w-full text-sm bg-white border rounded shadow-sm">
+            <thead class="bg-gray-100 text-gray-700">
+              <tr>
+                <th class="p-3">#</th>
+                <th class="p-3">Nombre del Plato</th>
+                <th class="p-3">Descripción</th>
+                <th class="p-3">Ingredientes</th>
+                <th class="p-3">Región</th>
+                <th class="p-3">Origen</th>
+                <th class="p-3">Tipo</th>
+                <th class="p-3">Acciones</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let plato of platosTipicos; let i = index" class="border-t hover:bg-gray-50">
+                <td class="p-3 text-gray-700 font-semibold">#{{ i+1 }}</td>
+                <td class="p-3 font-medium text-gray-800">{{ plato.nombre }}</td>
+                <td class="p-3 text-gray-600">{{ plato.descripcion }}</td>
+                <td class="p-3 text-gray-500">
+                  <ul class="list-inside">
+                    <li *ngFor="let ingrediente of plato.ingredientes">{{ ingrediente }}</li>
+                  </ul>
+                </td>
+                <td class="p-3 text-gray-500">{{ plato.region }}</td>
+                <td class="p-3 text-gray-500">{{ plato.origen }}</td>
+                <td class="p-3 text-gray-500">{{ plato.tipo }}</td>
+                <td class="p-3 relative">
+                  <div class="group relative">
+                    <button (click)="editar(plato.id)" class="flex gap-2 items-center px-4 py-2 hover:bg-gray-100 w-full text-indigo-600">
+                      <i class="fas fa-pen"></i> Editar
+                    </button>
+                    <button (click)="eliminar(plato.id)" class="flex gap-2 items-center px-4 py-2 hover:bg-gray-100 w-full text-red-600">
+                      <i class="fas fa-trash"></i> Eliminar
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="flex justify-between items-center mt-4 text-sm text-gray-600">
+          <div>
+            {{ ((paginaActual - 1) * limitePorPagina) + 1 }}–{{ getLimiteSuperior() }} of {{ totalElementos }}
+          </div>
+          <div class="flex items-center gap-2">
+            <button class="px-2 py-1 border rounded"
+                    [disabled]="paginaActual === 1"
+                    (click)="paginaAnterior()">&lt;</button>
+            <span>{{ paginaActual }}/{{ totalPaginas }}</span>
+            <button class="px-2 py-1 border rounded"
+                    [disabled]="paginaActual === totalPaginas"
+                    (click)="paginaSiguiente()">&gt;</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

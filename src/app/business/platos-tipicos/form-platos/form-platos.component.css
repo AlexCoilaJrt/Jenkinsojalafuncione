@@ -1,0 +1,11 @@
+/* plato-form.component.css */
+input, textarea {
+  border: 1px solid #d1d5db;
+  padding: 8px;
+  border-radius: 4px;
+  width: 100%;
+}
+
+button:disabled {
+  background-color: #d1d5db;
+}

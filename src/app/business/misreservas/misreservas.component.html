@@ -1,0 +1,72 @@
+<app-navbar></app-navbar>
+<div class="mt-40 max-w-7xl mx-auto px-4 mb-10">
+    <h1 class="text-4xl font-bold mb-10 text-center">Mis Reservas</h1>
+    
+    <div class="grid md:grid-cols-2 gap-6">
+        <div *ngFor="let reserva of reservas; let i = index" class="bg-white rounded-lg shadow-md p-6">
+            <div class="flex justify-between items-center">
+                <div>
+                    <h2 class="text-xl font-semibold text-gray-800 mb-1">Reserva #{{ reserva.id }}</h2>
+                    <p class="text-sm text-gray-600">Fecha de reserva: {{ reserva.fechaReserva | date: 'shortDate' }}
+                    </p>
+                    <p class="text-sm text-gray-600">Fecha de expiracion: {{ reserva.fechaExpiracion | date: 'shortDate'
+                        }}</p>
+                </div>
+                <button (click)="toggleDetalle(i)" class="text-sm text-green-600 hover:underline">
+                    {{ expandedIndex === i ? 'Ocultar itinerarios' : 'Ver itinerarios' }}
+                </button>
+            </div>
+
+            <div class="grid grid-cols-2 gap-x-4 gap-y-2 text-sm mt-4">
+                <p><strong>Inicio:</strong> {{ reserva.fechaInicio | date: 'shortDate' }}</p>
+                <p><strong>Fin:</strong> {{ reserva.fechaFin | date: 'shortDate' }}</p>
+                <p><strong>Personas:</strong> {{ reserva.cantidadPersonas }}</p>
+                <p><strong>Total:</strong> {{ reserva.moneda }} {{ reserva.precioTotal }}</p>
+                <p><strong>Estado:</strong> {{ reserva.estado }}</p>
+                <!-- Botón pagar cuando el estado es pendiente -->
+                <div class="flex">
+                    <div *ngIf="reserva.estado === 'pendiente'" class="col-span-2 flex justify-end mt-2">
+                        <button (click)="pagarReserva(reserva.id)"
+                            class="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700 transition">
+                            Pagar
+                        </button>
+                    </div>
+                    <!-- Botón pagar cuando el estado es pendiente -->
+                    <div *ngIf="reserva.estado === 'pendiente'" class="col-span-2 flex justify-end mt-2 ml-5">
+                        <button (click)="cancelarReserva(reserva.id)"
+                            class="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700 transition">
+                            Cancelar
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Itinerarios -->
+            <div *ngIf="expandedIndex === i" class="mt-6 border-t pt-4">
+                <h3 class="text-md font-semibold text-gray-700 mb-2">Itinerarios:</h3>
+
+                <div *ngIf="reserva.itinerarios?.length > 0; else sinItinerarios">
+                    <div *ngFor="let itin of reserva.itinerarios" class="bg-gray-50 p-4 rounded border mb-2 text-sm">
+                        <div class="grid grid-cols-2 gap-x-4 gap-y-1">
+                            <p><strong>Descripción:</strong> {{ itin.descripcion }}</p>
+                            <p><strong>Tipo Evento:</strong> {{ itin.tipoEvento }}</p>
+                            <p><strong>Inicio:</strong> {{ itin.fechaInicioActividad | date: 'shortDate' }}</p>
+                            <p><strong>Fin:</strong> {{ itin.fechaFinActividad | date: 'shortDate' }}</p>
+                            <p class="col-span-2"><strong>Lugar:</strong> {{ itin.lugarEncuentro }}</p>
+                            <p class="col-span-2"><strong>Observaciones:</strong> {{ itin.observaciones }}</p>
+                        </div>
+                    </div>
+                </div>
+
+                <ng-template #sinItinerarios>
+                    <p class="text-gray-500 text-sm">No hay itinerarios disponibles para esta reserva.</p>
+                </ng-template>
+            </div>
+        </div>
+    </div>
+    <div *ngIf="reservas.length === 0" class="flex flex-col items-center justify-center py-16 col-span-2">
+        <div class="animate-spin rounded-full h-10 w-10 border-t-2 border-b-2 border-green-600"></div>
+        <p class="mt-4 text-gray-600 text-lg">Cargando Reservas...</p>
+    </div>
+
+</div>

@@ -1,0 +1,81 @@
+<div class="flex">
+  <app-sidebar></app-sidebar>
+  <div class="flex-1 ml-64">
+    <app-navbar class="fixed top-0 left-[260px] right-0 h-[64px] z-10 bg-white border-b"></app-navbar>
+    <div class="mt-[64px] p-6">
+        <!-- Fila superior -->
+        <div class="flex justify-between items-center mb-6 flex-wrap gap-4">
+          <button
+            routerLink="/newrol"
+            class="px-4 py-2 bg-green-500 text-white font-semibold rounded-lg shadow hover:bg-green-700">
+            Agregar Nuevo Rol +
+          </button>
+          <div class="flex gap-2 items-center">
+            <select
+              [(ngModel)]="columnaBusqueda"
+              class="px-4 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300">
+              <option value="nombre">nombre</option>
+              <option value="descripcion">descripcion</option>
+              <option value="permiso">permiso</option>
+            </select>
+
+            <input
+              type="text"
+              [(ngModel)]="filtroBusqueda"
+              placeholder="Buscar"
+              class="px-4 py-2 border rounded-lg w-64 focus:outline-none focus:ring focus:border-blue-300" />
+          </div>
+        </div>
+
+        <h2 class="text-xl font-bold text-gray-800 mb-4">Lista de Roles y Permisos</h2>
+        <!-- Tabla de Roles -->
+        <div class="overflow-x-auto rounded-lg border shadow-sm">
+          <table class="min-w-full text-sm bg-white">
+            <thead class="bg-gray-100 text-gray-700">
+              <tr>
+                <th class="p-3 text-left">#</th>
+                <th class="p-3 text-left">Nombre del Rol</th>
+                <th class="p-3 text-left">Descripción</th>
+                <th class="p-3 text-left">Permisos Asociados</th>
+                <th class="p-3 text-left">Acciones</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let rol of rolesFiltrados; let i = index" class="border-t hover:bg-gray-50">
+                <td class="p-3 font-semibold text-gray-700">#{{ i + 1 }}</td>
+                <td class="p-3 font-medium text-gray-800">{{ rol.nombre }}</td>
+                <td class="p-3 text-gray-600">{{ rol.descripcion }}</td>
+                <td class="p-3 text-gray-600">
+                  <ul class="list-disc pl-5">
+                    <li *ngFor="let permiso of rol.rolesPermisos">
+                      {{ permiso.permiso?.nombre }} - {{ permiso.permiso?.descripcion }}
+                    </li>
+                  </ul>
+                </td>
+                <td class="p-3">
+                  <div class="flex gap-2">
+                    <button
+                      [routerLink]="['/editrol', rol.id]"
+                      class="flex gap-2 items-center px-4 py-2 hover:bg-gray-100 text-indigo-600 border border-indigo-100 rounded">
+                      <i class="fas fa-pen"></i> Editar
+                    </button>
+                    <button
+                      (click)="eliminarRol(rol.id)"
+                      class="flex gap-2 items-center px-4 py-2 hover:bg-gray-100 text-red-600 border border-red-100 rounded">
+                      <i class="fas fa-trash"></i> Eliminar
+                    </button>
+                  </div>
+                </td>
+              </tr>
+              <tr *ngIf="roles.length === 0">
+                <td colspan="5" class="text-center text-gray-500 py-4">
+                  <div class="inline-block animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-green-600"></div>
+                  <p class="mt-2 text-gray-600">Cargando roles...</p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+    </div>
+  </div>
+</div>

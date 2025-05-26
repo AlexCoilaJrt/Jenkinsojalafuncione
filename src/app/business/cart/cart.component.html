@@ -1,0 +1,66 @@
+<app-navbar></app-navbar>
+
+<div *ngIf="cartItems.length > 0; else emptyCart" class="mt-40 max-w-7xl mx-auto px-4">
+    <h1 class="text-4xl font-semibold">Servicios Seleccionados</h1>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div *ngFor="let item of cartItems; let i = index"
+            class="flex items-start bg-white rounded-xl shadow-lg p-6 hover:shadow-xl transition-shadow duration-200">
+
+            <!-- Imagen del producto -->
+            <div class="flex-shrink-0 w-32 h-32 mr-6">
+                <img [src]="item.imagen?.length > 0 ? 'https://twsevdzjdnwjhdysvecm.supabase.co/storage/v1/object/public/servicios/' + item.imagen : 'img/fam1.png'"
+                    alt="{{ item.nombre }}" class="w-full h-full object-cover rounded-lg" />
+            </div>
+
+            <!-- Detalles del producto -->
+            <div class="flex-grow space-y-2">
+                <h4 class="text-xl font-semibold text-gray-900">{{ item.nombre }}</h4>
+
+                <div class="grid grid-cols-2 gap-x-4 gap-y-1 text-sm text-gray-700">
+                    <p><span class="font-medium">Desde:</span> {{ item.startDate }}</p>
+                    <p><span class="font-medium">Hasta:</span> {{ item.endDate }}</p>
+                    <p><span class="font-medium">Personas:</span> {{ item.numeroPersonas }}</p>
+                    <p><span class="font-medium">Moneda:</span> {{ item.moneda }}</p>
+                    <p><span class="font-medium">Lugar: </span><i class="fa-solid fa-map-location-dot"></i></p>
+                    <p><span class="font-medium">Tipo evento:</span> {{ item.tipoEvento }}</p>
+                    <p class="col-span-2"><span class="font-medium">Descripción:</span> {{ item.descripcion }}</p>
+                    <p class="col-span-2"><span class="font-medium">Observaciones:</span> {{ item.observaciones }}</p>
+                </div>
+
+                <p class="text-lg font-bold text-green-600 mt-2">
+                    Total: {{ item.moneda }} {{ item.totalPrice }}
+                </p>
+            </div>
+
+            <!-- Botón de eliminar -->
+            <div class="flex-shrink-0 ml-4 mt-1">
+                <button (click)="removeFromCart(i)" class="text-red-500 hover:text-red-700 text-2xl">
+                    <i class="fa-solid fa-trash"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Acciones del carrito -->
+    <div class="flex justify-between items-center mt-6 bg-green-100 p-4 rounded-xl shadow-md">
+        <div class="text-lg font-semibold text-green-600">
+            Total: {{ getTotalPrice() }}
+        </div>
+        <button (click)="reserve()"
+            class="px-6 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 transition duration-300">
+            Pagar
+        </button>
+    </div>
+</div>
+
+<ng-template #emptyCart>
+    <div class="flex justify-center items-center py-20 text-gray-500 mt-40">
+        <div>
+            <p class="text-xl">Tu carrito está vacío.</p>
+            <button routerLink="/"
+                class=" mt-10 px-6 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 transition duration-300">
+                Seguir explorando ....
+            </button>
+        </div>
+    </div>
+</ng-template>

@@ -1,0 +1,48 @@
+<div class="flex">
+    <app-sidebar class="w-[260px] fixed h-screen z-20"></app-sidebar>
+    <div class="flex-1 ml-[260px]">
+      <app-navbar class="fixed top-0 left-[260px] right-0 h-[64px] z-10 bg-white border-b"></app-navbar>
+  
+      <div class="m-[80px]">
+        <div class="max-w-2xl mx-auto p-6 bg-white rounded-lg shadow-lg">
+          <h2 class="text-2xl font-bold mb-4 text-gray-800">
+            {{ isEdit ? 'Editar Rol' : 'Registrar Rol' }}
+          </h2>
+  
+          <form [formGroup]="rolForm" (ngSubmit)="guardarRol()">
+            <div class="space-y-6">
+  
+              <div>
+                <label class="block font-medium text-gray-700">Nombre del Rol</label>
+                <input
+                  type="text"
+                  formControlName="nombre"
+                  placeholder="Ej: Administrador"
+                  class="border p-3 rounded w-full"
+                  required />
+              </div>
+  
+              <div>
+                <label class="block font-medium text-gray-700">Descripción</label>
+                <textarea
+                  formControlName="descripcion"
+                  placeholder="Describe el propósito del rol"
+                  class="border p-3 rounded w-full"
+                  rows="4"></textarea>
+              </div>
+  
+              <div class="flex justify-end gap-6 mt-6">
+                <button type="submit" class="bg-green-600 text-white px-8 py-3 rounded hover:bg-green-700">
+                  {{ isEdit ? 'Actualizar' : 'Guardar' }}
+                </button>
+                <button type="button" class="bg-gray-300 text-gray-800 px-8 py-3 rounded hover:bg-gray-400" (click)="cancelar()">
+                  Cancelar
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  
