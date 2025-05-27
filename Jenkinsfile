@@ -38,6 +38,14 @@ pipeline {
             }
         }
 
+        stage('Listar contenido capachica-app-main') {
+            steps {
+                dir('capachica-app-main') {
+                    sh 'ls -la'
+                }
+            }
+        }
+
         stage('Verificar sonar-project.properties') {
             steps {
                 dir('capachica-app-main') {
@@ -55,7 +63,7 @@ pipeline {
                         sh '''
                         npx sonar-scanner \
                           -Dsonar.projectKey=capachica-app-main \
-                          -Dsonar.sources=src \
+                          -Dsonar.sources=. \
                           -Dsonar.host.url=$SONAR_HOST_URL \
                           -Dsonar.login=$SONAR_AUTH_TOKEN
                         '''
