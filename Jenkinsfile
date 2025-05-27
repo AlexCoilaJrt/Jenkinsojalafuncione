@@ -2,12 +2,11 @@ pipeline {
     agent any
 
     tools {
-        nodejs 'NodeJS 18' // Usa una versión compatible con Angular 18
+        nodejs 'NodeJS 18'
     }
 
     environment {
-        // Cambia esta ruta si es diferente en tu contenedor Jenkins
-        CHROME_BIN = "/usr/bin/chromium" 
+        CHROME_BIN = "/usr/bin/chromium"
     }
 
     stages {
@@ -32,10 +31,19 @@ pipeline {
         stage('Pruebas Unitarias Angular') {
             steps {
                 dir('capachica-app-main') {
-                    // Usamos withEnv para asegurar la variable en el scope de las pruebas
                     withEnv(["CHROME_BIN=${env.CHROME_BIN}"]) {
                         sh 'npx ng test --no-watch --browsers=ChromeHeadless --code-coverage'
                     }
+                }
+            }
+        }
+
+        stage('Verificar sonar-project.properties') {
+            steps {
+                dir('capachica-app-main') {
+                    sh 'pwd'
+                    sh 'ls -l sonar-project.properties || echo "No se encontró sonar-project.properties"'
+                    sh 'cat sonar-project.properties || echo "No se pudo leer sonar-project.properties"'
                 }
             }
         }
@@ -44,7 +52,13 @@ pipeline {
             steps {
                 dir('capachica-app-main') {
                     withSonarQubeEnv('sonarqube') {
-                        sh 'npx sonar-scanner'
+                        sh '''
+                        npx sonar-scanner \
+                          -Dsonar.projectKey=capachica-app-main \
+                          -Dsonar.sources=src \
+                          -Dsonar.host.url=$SONAR_HOST_URL \
+                          -Dsonar.login=$SONAR_AUTH_TOKEN
+                        '''
                     }
                 }
             }
