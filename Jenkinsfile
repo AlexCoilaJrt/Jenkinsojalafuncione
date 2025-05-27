@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     tools {
-        nodejs 'NodeJS 20' // Usa una versión compatible con Angular 18 (por ejemplo, Node 20.11.1 o superior)
+        nodejs 'NodeJS 18.2.19' // Usa una versión compatible con Angular 18 (por ejemplo, Node 20.11.1 o superior)
     }
 
     environment {
