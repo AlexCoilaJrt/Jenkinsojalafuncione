@@ -2,11 +2,12 @@ pipeline {
     agent any
 
     tools {
-        nodejs 'NodeJS 18' // Usa una versión compatible con Angular 18 (por ejemplo, Node 20.11.1 o superior)
+        nodejs 'NodeJS 18' // Usa una versión compatible con Angular 18
     }
 
     environment {
-        CHROME_BIN = "/usr/bin/google-chrome" // Asegura que Chrome esté disponible
+        // Cambia esta ruta si es diferente en tu contenedor Jenkins
+        CHROME_BIN = "/usr/bin/chromium" 
     }
 
     stages {
@@ -31,7 +32,10 @@ pipeline {
         stage('Pruebas Unitarias Angular') {
             steps {
                 dir('capachica-app-main') {
-                    sh 'npx ng test --no-watch --browsers=ChromeHeadless --code-coverage'
+                    // Usamos withEnv para asegurar la variable en el scope de las pruebas
+                    withEnv(["CHROME_BIN=${env.CHROME_BIN}"]) {
+                        sh 'npx ng test --no-watch --browsers=ChromeHeadless --code-coverage'
+                    }
                 }
             }
         }
