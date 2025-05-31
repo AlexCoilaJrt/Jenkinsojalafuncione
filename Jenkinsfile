@@ -56,21 +56,17 @@ pipeline {
             }
         }
 
-        stage('Análisis Sonar Angular') {
-            steps {
-                dir('capachica-app-main') {
-                    withSonarQubeEnv('sonarqube') {
-                        sh '''
-                        npx sonar-scanner \
-                          -Dsonar.projectKey=capachica-app-main \
-                          -Dsonar.sources=. \
-                          -Dsonar.host.url=$SONAR_HOST_URL \
-                          -Dsonar.login=$SONAR_AUTH_TOKEN
-                        '''
-                    }
-                }
-            }
+       stage('Análisis Sonar Angular') {
+    steps {
+        dir('capachica-app-main') {
+            // Verificar que el archivo existe
+            sh 'ls -la sonar-project.properties'
+            
+            // Usar solo el scanner sin parámetros adicionales
+            sh 'npx sonar-scanner'
         }
+    }
+}
 
         stage('Quality Gate') {
             steps {
