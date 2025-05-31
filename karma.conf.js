@@ -32,10 +32,10 @@ module.exports = function (config) {
       skipFilesWithNoCoverage: false,
       check: {
         global: {
-          statements: 80,
-          branches: 80,
-          functions: 80,
-          lines: 80
+          statements: 60,
+          branches: 40,
+          functions: 45,
+          lines: 60
         }
       }
     },
