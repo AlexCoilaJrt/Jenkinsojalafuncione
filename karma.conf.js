@@ -25,18 +25,17 @@ module.exports = function (config) {
       reporters: [
         { type: 'html' },
         { type: 'text-summary' },
-        { type: 'lcov' }, // Cambiado de 'lcovonly' a 'lcov'
-        { type: 'cobertura' } // Opcional: formato adicional para CI/CD
+        { type: 'lcovonly' }, // Usar lcovonly para generar lcov.info
+        { type: 'text' }
       ],
-      // Configuración adicional para asegurar la generación del archivo
       fixWebpackSourcePaths: true,
       skipFilesWithNoCoverage: false,
-      'report-config': {
-        'html': {
-          subdir: 'html'
-        },
-        'lcov': {
-          subdir: 'lcov'
+      check: {
+        global: {
+          statements: 80,
+          branches: 80,
+          functions: 80,
+          lines: 80
         }
       }
     },

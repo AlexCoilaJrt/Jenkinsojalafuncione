@@ -78,8 +78,8 @@
               "zone.js",
               "zone.js/testing"
             ],
-            
             "tsConfig": "tsconfig.spec.json",
+            "karmaConfig": "karma.conf.js",
             "assets": [
               {
                 "glob": "**/*",
@@ -89,7 +89,28 @@
             "styles": [
               "src/styles.css"
             ],
-            "scripts": []
+            "scripts": [],
+            "codeCoverage": false,
+            "codeCoverageExclude": [
+              "src/test.ts",
+              "src/polyfills.ts",
+              "**/*.spec.ts",
+              "**/*.mock.ts",
+              "src/environments/**"
+            ]
+          },
+          "configurations": {
+            "coverage": {
+              "codeCoverage": true,
+              "browsers": "ChromeHeadless",
+              "watch": false,
+              "sourceMap": true
+            },
+            "watch": {
+              "codeCoverage": false,
+              "browsers": "Chrome",
+              "watch": true
+            }
           }
         }
       }

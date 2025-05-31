@@ -6,7 +6,15 @@
     "start": "ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test"
+    "test": "ng test",
+    "test:coverage": "ng test --configuration=coverage",
+    "test:coverage-watch": "ng test --code-coverage --watch=true",
+    "test:ci": "ng test --configuration=coverage --progress=false",
+    "test:headless": "ng test --watch=false --browsers=ChromeHeadless",
+    "coverage:open": "open coverage/capachica-app/index.html",
+    "sonar": "sonar-scanner",
+    "test:sonar": "npm run test:coverage && npm run sonar",
+    "coverage:sonar": "ng test --configuration=coverage && sonar-scanner"
   },
   "private": true,
   "dependencies": {
@@ -19,7 +27,6 @@
     "@angular/platform-browser-dynamic": "^18.0.0",
     "@angular/router": "^18.0.0",
     "@supabase/supabase-js": "^2.49.4",
-    "capachica-app": "file:",
     "flowbite": "^3.1.2",
     "rxjs": "~7.8.0",
     "sweetalert2": "^11.19.1",
