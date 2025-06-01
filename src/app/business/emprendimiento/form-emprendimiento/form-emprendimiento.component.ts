@@ -9,6 +9,7 @@ import { SidebarComponent } from '../../sidebar/sidebar.component';
 import { CommonModule } from '@angular/common';
 import { NavbarComponent } from '../../sidebar/navbar/navbar.component';
 import { LugaresService } from '../../../core/services/lugar.service';
+import { firstValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-form-emprendimiento',
@@ -56,14 +57,18 @@ export class FormEmprendimientoComponent implements OnInit {
 
     this.authService.getUsuarios().subscribe({
       next: u => this.usuarios = u,
-      error: () => Swal.fire('Error', 'No se pudieron cargar los usuarios', 'error')
+      error: () => {
+        Swal.fire('Error', 'No se pudieron cargar los usuarios', 'error');
+      }
     });
-
+    
     this.lugarService.getLugares().subscribe({
       next: l => this.lugaresTuristicos = l,
-      error: () => Swal.fire('Error', 'No se pudieron cargar los lugares turísticos', 'error')
+      error: () => {
+        Swal.fire('Error', 'No se pudieron cargar los lugares turísticos', 'error');
+      }
     });
-
+    
     // Detectar modo edición de forma robusta
     const idParam = this.route.snapshot.paramMap.get('id');
     this.isEdit = !!(this.route.routeConfig?.path?.includes('editar') && idParam);
@@ -91,7 +96,6 @@ export class FormEmprendimientoComponent implements OnInit {
     event.target.value = '';
   }
   
-
   removeImage(i: number): void {
     this.selectedFiles.splice(i, 1);
     this.previewUrls.splice(i, 1);
@@ -133,9 +137,9 @@ export class FormEmprendimientoComponent implements OnInit {
 
     try {
       if (this.isEdit) {
-        await this.emprendimientoService.actualizarEmprendimiento(this.currentId, datos).toPromise();
+        await firstValueFrom(this.emprendimientoService.actualizarEmprendimiento(this.currentId, datos));
       } else {
-        await this.emprendimientoService.crearEmprendimiento(datos).toPromise();
+        await firstValueFrom(this.emprendimientoService.crearEmprendimiento(datos));
       }
       Swal.fire('¡Éxito!', 'Emprendimiento guardado correctamente', 'success')
         .then(() => this.router.navigate(['/emprendimiento']));

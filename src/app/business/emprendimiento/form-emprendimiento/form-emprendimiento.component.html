@@ -118,15 +118,17 @@
               class="w-full p-2 border rounded-md mt-2" />
 
             <!-- Previsualización de las imágenes seleccionadas -->
-            <div class="grid grid-cols-4 gap-2 mt-4">
-              <div *ngFor="let url of previewUrls; let i = index" class="relative">
-                <img [src]="url" class="w-full h-24 object-cover rounded-lg" />
-                <button type="button" (click)="removeImage(i)"
-                  class="absolute top-1 right-1 bg-white rounded-full p-1 shadow">
-                  ✕
-                </button>
-              </div>
-            </div>
+           <!-- Previsualización de las imágenes seleccionadas -->
+<div class="grid grid-cols-4 gap-2 mt-4">
+  <div *ngFor="let url of previewUrls; let i = index" class="relative">
+    <img [src]="url" class="w-full h-24 object-cover rounded-lg" [alt]="'Imagen seleccionada ' + (i + 1)" />
+    <button type="button" (click)="removeImage(i)"
+      class="absolute top-1 right-1 bg-white rounded-full p-1 shadow">
+      ✕
+    </button>
+  </div>
+</div>
+
           </div>
 
           <!-- Estado -->
